@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#175959"
+    tools:context=".Register">
+
+    <LinearLayout
+        android:layout_width="108dp"
+        android:layout_height="127dp"
+        android:layout_marginStart="160dp"
+        android:orientation="vertical">
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profile_image"
+            android:layout_width="107dp"
+            android:layout_height="94dp"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="30dp"
+            android:src="@drawable/covidimg"
+            app:civ_border_color="#FF000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            tools:ignore="MissingConstraints"
+            tools:layout_editor_absoluteY="70dp"></de.hdodenhof.circleimageview.CircleImageView>
+
+
+    </LinearLayout>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="Welcome To Covid Care!"
+        android:textColor="@color/white"
+        android:layout_marginStart="50dp"
+        android:textSize="30dp"
+        android:textStyle="italic"
+        tools:layout_editor_absoluteY="176dp"></TextView>
+
+    <TextView
+
+        android:id="@+id/tv_fullname"
+        android:layout_width="match_parent"
+        android:layout_marginTop="30dp"
+        android:layout_height="wrap_content"
+        android:text="Full Name"
+        android:textSize="25dp"
+        android:textColor="@color/white"
+        android:layout_marginStart="40dp"
+
+        >
+    </TextView>
+
+    <EditText
+        android:id="@+id/ed_fullname_register"
+        android:layout_width="330dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:hint="Please enter your fullname"
+        android:textAlignment="center"
+        android:background="@drawable/whitebuttonlayout"
+
+        >
+    </EditText>
+
+
+    <TextView
+
+        android:id="@+id/tv_email"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:text="Email"
+        android:textSize="25dp"
+        android:textColor="@color/white"
+        android:layout_marginStart="40dp"
+
+        >
+    </TextView>
+
+    <EditText
+        android:id="@+id/ed_email_register"
+        android:layout_width="330dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/whitebuttonlayout"
+        android:hint="Please enter your email"
+        android:textAlignment="center"
+
+        >
+    </EditText>
+
+    <TextView
+
+        android:id="@+id/tv_password"
+        android:layout_width="match_parent"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:text="Password"
+        android:textSize="25dp"
+        android:textColor="@color/white"
+        android:layout_marginStart="40dp"
+
+        >
+    </TextView>
+
+    <EditText
+        android:id="@+id/ed_pasasword_register"
+        android:layout_width="330dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="10dp"
+        android:layout_height="wrap_content"
+        android:background="@drawable/whitebuttonlayout"
+        android:hint="Please enter password"
+        android:textAlignment="center"
+        >
+    </EditText>
+
+    <Button
+        android:layout_width="182dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="30dp"
+        android:textColor="@color/white"
+        android:background="@drawable/colorbutton"
+        android:text="Submit">
+
+    </Button>
+
+    <TextView
+        android:id="@+id/tv_have_an_account"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="230dp"
+        android:layout_marginTop="30dp"
+        android:text="Already have an account?"
+
+        android:textColor="#E4DCDC"
+        android:textSize="15dp"></TextView>
+
+
+</LinearLayout>

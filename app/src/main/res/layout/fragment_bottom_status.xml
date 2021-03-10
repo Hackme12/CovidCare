@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#2B8E8E"
+    android:layoutMode="clipBounds"
+    tools:context=".fragment_buttom_status">
+
+    <!-- TODO: Update blank fragment layout -->
+
+    <TextView
+        android:id="@+id/text_cvd_status"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="0dp"
+        android:layout_marginTop="109dp"
+        android:layout_marginEnd="0dp"
+        android:rotationX="9"
+        android:text="@string/_status"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="25dp"
+        android:textStyle="italic"
+        android:typeface="normal"
+        android:visibility="visible"></TextView>
+
+    <RadioGroup
+        android:id="@+id/radio_status"
+        android:layout_width="209dp"
+        android:layout_height="54dp"
+        android:layout_below="@+id/text_cvd_status"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="190dp"
+        android:layout_marginTop="18dp"
+
+        android:orientation="horizontal"
+        android:textAlignment="center">
+
+        <RadioButton
+            android:id="@+id/radio_status_btn_yes"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+
+            android:text="@string/Yes"
+            android:textColor="#F10707"
+            android:textSize="30dp" />
+
+        <RadioButton
+            android:id="@+id/radio_status_btn_no"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@color/white"
+            android:text="@string/No"
+            android:textColor="#00E676"
+            android:textSize="30dp" />
+    </RadioGroup>
+
+    <TextView
+        android:id="@+id/text_cvd_volunteer"
+        android:layout_width="401dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+
+        android:layout_alignParentTop="true"
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"
+        android:layout_marginStart="7dp"
+        android:layout_marginTop="274dp"
+        android:layout_marginEnd="3dp"
+        android:rotationX="9"
+        android:text="@string/_volunteer"
+        android:textAlignment="center"
+        android:textColor="#FFFFFF"
+        android:textSize="25dp"
+        android:textStyle="italic"
+        android:typeface="normal"
+        android:visibility="visible"></TextView>
+
+    <RadioGroup
+        android:id="@+id/radio_volunteer"
+        android:layout_width="209dp"
+        android:layout_height="54dp"
+        android:layout_below="@+id/text_cvd_status"
+        android:layout_centerInParent="true"
+        android:layout_marginLeft="190dp"
+        android:layout_marginTop="217dp"
+        android:orientation="horizontal"
+        android:textAlignment="center">
+
+        <RadioButton
+            android:id="@+id/radio_volunteer_btn_yes"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:text="@string/Yes"
+
+            android:textColor="#00E676"
+            android:textSize="30dp" />
+
+        <RadioButton
+            android:id="@+id/radio_volunteer_btn_no"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="10dp"
+            android:background="@color/white"
+            android:text="@string/No"
+            android:textColor="#F10707"
+            android:textSize="30dp" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/btn_status_next"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginEnd="163dp"
+        android:layout_marginBottom="153dp"
+        android:background="@drawable/whitebuttonlayout"
+        android:text="Next"
+        android:textColor="#FFFFFF" />
+
+
+</RelativeLayout>

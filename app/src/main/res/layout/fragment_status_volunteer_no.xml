@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="#175959"
+    tools:context=".fragment_status_volunteer_no">
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+    <ImageView
+        android:id="@+id/img_who_suggestion"
+        android:layout_width="match_parent"
+        android:layout_height="469dp"
+
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="19dp"
+
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="242dp"
+        android:src="@drawable/who_suggestion"></ImageView>
+
+    <TextView
+
+        android:id="@+id/tv_message"
+        android:layout_width="wrap_content"
+        android:layout_height="120dp"
+        android:layout_below="@+id/img_who_suggestion"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="19dp"
+        android:layout_marginTop="-227dp"
+        android:layout_marginEnd="20dp"
+        android:background="#4E7AC1"
+        android:backgroundTint="@color/cardview_shadow_end_color"
+        android:text="@string/_Message_unshared_location"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        android:textStyle="italic"></TextView>
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:textColor="@color/white"
+        android:layout_marginStart="11dp"
+        android:layout_marginBottom="29dp"
+        android:background="@drawable/colorbutton"
+        android:text="back"></Button>
+
+    <Button
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="240dp"
+        android:layout_marginBottom="28dp"
+        android:background="@drawable/colorbutton"
+        android:text="Done"
+        android:textColor="@color/white"></Button>
+
+
+</RelativeLayout>

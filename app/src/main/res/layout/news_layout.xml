@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_marginTop="15dp"
+        app:cardCornerRadius="30dp"
+        android:background="@drawable/news_background"
+        android:layout_margin="15dp">
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="260dp"
+            >
+            <ImageView
+                android:id="@+id/img_news_image"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/covid_alert"
+                ></ImageView>
+            <ImageView
+
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+
+                android:background="@drawable/news_background"
+                ></ImageView>
+
+            <TextView
+                android:id="@+id/news_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="TITLE"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:textSize="30dp"
+                android:layout_marginTop="200dp"
+                ></TextView>
+
+            <TextView
+                android:id="@+id/news_published_date"
+                android:layout_width="wrap_content"
+                android:layout_height="20dp"
+                android:textStyle="italic"
+                android:layout_marginLeft="300dp"
+                android:text="Date"
+
+                ></TextView>
+
+        </FrameLayout>
+
+        <LinearLayout
+            android:layout_marginTop="260dp"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            >
+
+            <TextView
+                android:layout_marginStart="10dp"
+                android:paddingTop="10dp"
+               android:text="Source: "
+                android:textAlignment="center"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                >
+            </TextView>
+            <TextView
+                android:id="@+id/news_url"
+                android:layout_marginStart="10dp"
+                android:paddingTop="10dp"
+                android:text="url"
+                android:textStyle="italic"
+                android:layout_gravity="center"
+                android:textColor="@color/black"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                >
+            </TextView>
+
+
+
+
+
+
+
+
+        </LinearLayout>
+
+    </androidx.cardview.widget.CardView>
+
+</RelativeLayout>
