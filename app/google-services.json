@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "871285379856",
+    "project_id": "covid-care-304710",
+    "storage_bucket": "covid-care-304710.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:871285379856:android:c3d1be0c3b16911b460b95",
+        "android_client_info": {
+          "package_name": "com.example.covidcare"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "871285379856-7a9tkbegkrumvlbpe8o3tavgnjbimdh4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCRpPs5H2DDg-A6hMFE1srE6k3rNjihB8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "871285379856-7a9tkbegkrumvlbpe8o3tavgnjbimdh4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
