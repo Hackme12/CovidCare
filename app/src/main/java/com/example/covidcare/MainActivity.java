@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if(btn== "Finish"){
                     Toast.makeText(MainActivity.this, "Welcome to the login page!", Toast.LENGTH_SHORT).show();
-                    Intent intent = new Intent(MainActivity.this,dashboard.class);
+                    Intent intent = new Intent(MainActivity.this,Login.class);
                     startActivity(intent);
                 }
                 else{

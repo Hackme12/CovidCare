@@ -2,149 +2,156 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="#175959"
-    tools:context=".Register">
+    android:background="#69ACDD"
+    android:padding="10dp"
+    tools:context=".Login">
 
-    <LinearLayout
-        android:layout_width="108dp"
-        android:layout_height="127dp"
-        android:layout_marginStart="160dp"
-        android:orientation="vertical">
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_image"
-            android:layout_width="107dp"
-            android:layout_height="94dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="30dp"
-            android:src="@drawable/covidimg"
-            app:civ_border_color="#FF000000"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteY="70dp"></de.hdodenhof.circleimageview.CircleImageView>
-
-
-    </LinearLayout>
     <TextView
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:text="Full Name"
+        android:layout_height="wrap_content" />
+    <EditText
+        android:id="@+id/fNameEditText"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:text= "Email"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/emailEditText"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:inputType="textEmailAddress"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:text= " Password"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/passwordEditText"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:inputType="textPassword"
+        android:layout_height="wrap_content"/>
+    <TextView
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:text= "Phone Number"
+        android:layout_height="wrap_content"/>
+
+
+    <EditText
+        android:id="@+id/phoneEditText"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:inputType="number"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:text= "Emergency Contact Number"
+        android:layout_height="wrap_content"/>
+
+    <EditText
+        android:id="@+id/phone_emergencyEdittext"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:inputType="number"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:text= "DOB"
+        android:layout_height="wrap_content"/>
+
+
+    <EditText
+        android:id="@+id/Dob_editText"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:textAlignment="center"
+       android:textColorHint="#81000000"
+        android:hint="MM/DD/YYYY"
+        android:inputType="date"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:text= "Sex"
+        android:layout_height="wrap_content"/>
+
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:text="Welcome To Covid Care!"
-        android:textColor="@color/white"
-        android:layout_marginStart="50dp"
-        android:textSize="30dp"
-        android:textStyle="italic"
-        tools:layout_editor_absoluteY="176dp"></TextView>
-
-    <TextView
-
-        android:id="@+id/tv_fullname"
-        android:layout_width="match_parent"
-        android:layout_marginTop="30dp"
-        android:layout_height="wrap_content"
-        android:text="Full Name"
-        android:textSize="25dp"
-        android:textColor="@color/white"
-        android:layout_marginStart="40dp"
-
+        android:orientation="horizontal"
         >
-    </TextView>
-
-    <EditText
-        android:id="@+id/ed_fullname_register"
-        android:layout_width="330dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content"
-        android:hint="Please enter your fullname"
-        android:textAlignment="center"
-        android:background="@drawable/whitebuttonlayout"
-
-        >
-    </EditText>
 
 
-    <TextView
+        <RadioButton
+            android:id="@+id/maleRbtn"
+            android:layout_width="146dp"
+            android:textColor="#D0000000"
+            android:layout_height="wrap_content"
+            android:text="Male" />
 
-        android:id="@+id/tv_email"
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content"
-        android:text="Email"
-        android:textSize="25dp"
-        android:textColor="@color/white"
-        android:layout_marginStart="40dp"
+        <RadioButton
+            android:id="@+id/femaleRbtn"
+            android:layout_width="142dp"
+            android:textColor="#D0000000"
+            android:layout_height="wrap_content"
+            android:text="Female" />
 
-        >
-    </TextView>
+        <RadioButton
+            android:id="@+id/otherRbtn"
+            android:textColor="#D0000000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Others" />
 
-    <EditText
-        android:id="@+id/ed_email_register"
-        android:layout_width="330dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/whitebuttonlayout"
-        android:hint="Please enter your email"
-        android:textAlignment="center"
-
-        >
-    </EditText>
-
-    <TextView
-
-        android:id="@+id/tv_password"
-        android:layout_width="match_parent"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content"
-        android:text="Password"
-        android:textSize="25dp"
-        android:textColor="@color/white"
-        android:layout_marginStart="40dp"
-
-        >
-    </TextView>
-
-    <EditText
-        android:id="@+id/ed_pasasword_register"
-        android:layout_width="330dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="10dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/whitebuttonlayout"
-        android:hint="Please enter password"
-        android:textAlignment="center"
-        >
-    </EditText>
+    </RadioGroup>
 
     <Button
-        android:layout_width="182dp"
-        android:layout_height="50dp"
-        android:layout_marginStart="120dp"
-        android:layout_marginTop="30dp"
-        android:textColor="@color/white"
-        android:background="@drawable/colorbutton"
-        android:text="Submit">
+        android:id="@+id/RegisterBtn"
+        android:textColor="@color/black"
+        android:background="@drawable/box_layout"
+        android:layout_width="130dp"
+        android:layout_height="62dp"
+        android:text="Register"
+        android:layout_marginLeft="120dp" />
 
-    </Button>
 
-    <TextView
-        android:id="@+id/tv_have_an_account"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="230dp"
-        android:layout_marginTop="30dp"
-        android:text="Already have an account?"
 
-        android:textColor="#E4DCDC"
-        android:textSize="15dp"></TextView>
+
 
 
 </LinearLayout>
