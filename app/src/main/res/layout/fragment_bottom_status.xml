@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#2B8E8E"
+    android:background="#69ACDD"
     android:layoutMode="clipBounds"
     tools:context=".fragment_buttom_status">
 
@@ -23,7 +23,7 @@
         android:rotationX="9"
         android:text="@string/_status"
         android:textAlignment="center"
-        android:textColor="#FFFFFF"
+        android:textColor="#000000"
         android:textSize="25dp"
         android:textStyle="italic"
         android:typeface="normal"
@@ -77,7 +77,7 @@
         android:rotationX="9"
         android:text="@string/_volunteer"
         android:textAlignment="center"
-        android:textColor="#FFFFFF"
+        android:textColor="#000000"
         android:textSize="25dp"
         android:textStyle="italic"
         android:typeface="normal"
@@ -119,6 +119,7 @@
         android:id="@+id/btn_status_next"
         android:layout_width="100dp"
         android:layout_height="50dp"
+
         android:layout_alignParentEnd="true"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
@@ -126,7 +127,7 @@
         android:layout_marginBottom="153dp"
         android:background="@drawable/whitebuttonlayout"
         android:text="Next"
-        android:textColor="#FFFFFF" />
+        android:textColor="#000000" />
 
 
 </RelativeLayout>

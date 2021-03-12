@@ -111,7 +111,7 @@ public class Login extends AppCompatActivity {
 
        // Button submit = view.findViewById(R.id.submitBtn);
 
-        builder.setPositiveButton("                                         SUBMIT", new DialogInterface.OnClickListener() {
+        builder.setPositiveButton("SUBMIT                                       ", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
 
