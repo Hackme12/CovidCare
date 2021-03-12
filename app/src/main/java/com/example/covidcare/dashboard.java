@@ -22,6 +22,7 @@ import android.widget.Toast;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Calendar;
 
@@ -33,6 +34,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
     private ActionBarDrawerToggle toggle;
     private NavigationView navigationView;
     Toolbar toolbar;
+    FirebaseAuth auth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_menu);
         navigationView.bringToFront();
+        auth = FirebaseAuth.getInstance();
 
 
         //NavController navController = navHostFragment.getNavController();
@@ -72,10 +75,19 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
             drawerLayout.closeDrawer(GravityCompat.START);
         }
         else{
+            auth.signOut();
+            Intent intent = new Intent(dashboard.this,Login.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                    Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                    Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
             super.onBackPressed();
         }
 
     }
+
+
+
 
 
     private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -133,7 +145,13 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new fragment_drawer_about()).commit();
                 break;
             case R.id.menu_logout:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new fragment_drawer_news()).commit();
+               auth.signOut();
+               Intent intent = new Intent( dashboard.this, Login.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
+                        Intent.FLAG_ACTIVITY_CLEAR_TASK |
+                        Intent.FLAG_ACTIVITY_NEW_TASK);
+               startActivity(intent);
+
                 break;
 
         }

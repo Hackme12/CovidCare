@@ -191,6 +191,12 @@ public class MainActivity extends AppCompatActivity {
         alarmManager.setExact(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),broadcast);
     }
 
+    @Override
+    public void onBackPressed() {
+
+        super.onBackPressed();
+    }
+
 //    private class Content extends AsyncTask<Void, Void, Void> {
 //
 //        @Override
