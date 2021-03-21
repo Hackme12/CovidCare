@@ -130,7 +130,9 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                 //Toast.makeText(this, "Hello there", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.menu_news:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new fragment_drawer_news()).commit();
+                Intent intent1 = new Intent(dashboard.this, News.class);
+                startActivity(intent1);
+               // getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new fragment_drawer_news()).commit();
                 break;
 
             case R.id.menu_vaccine_info:

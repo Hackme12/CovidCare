@@ -50,7 +50,7 @@ public class Login extends AppCompatActivity {
         Login = (Button)findViewById(R.id.loginBtn);
         progressDialog = new ProgressDialog(this);
         authentication =  FirebaseAuth.getInstance();
-        firebaseUser = FirebaseAuth.getInstance().getCurrentUser();
+
 
         Login.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,15 +128,13 @@ public class Login extends AppCompatActivity {
 
                 String Email = email.getText().toString().trim();
 
-                String currentUserEmail = firebaseUser.getEmail();
+
 
 
                 if (TextUtils.isEmpty(Email)){
                     Toast.makeText(Login.this, "Please enter your email.", Toast.LENGTH_SHORT).show();
                 }
-                else if(!Email.equals(currentUserEmail)){
-                    Toast.makeText(Login.this, "Please use the email that you have used to sign in account.", Toast.LENGTH_SHORT).show();
-                }
+
                 else
                 {
                    authentication.sendPasswordResetEmail(Email).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -169,22 +167,30 @@ public class Login extends AppCompatActivity {
         authentication.signInWithEmailAndPassword(username,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-               if(FirebaseAuth.getInstance().getCurrentUser().isEmailVerified()){
-                   if(task.isSuccessful()) {
-                       progressDialog.dismiss();
-                       Intent intent = new Intent(Login.this, dashboard.class);
-                       startActivity(intent);
-                   }
-                   else{
-                       progressDialog.dismiss();
-                       Toast.makeText(Login.this, "Incorrect Username or Password.", Toast.LENGTH_SHORT).show();
-                   }
-               }
-               else{
-                   progressDialog.dismiss();
-                   Toast.makeText(Login.this, "Please verify your email first." +
-                           "Check your Email to verify it.", Toast.LENGTH_SHORT).show();
-               }
+
+
+                if(task.isSuccessful()){
+                    FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
+                    if(User.isEmailVerified()){
+                            progressDialog.dismiss();
+                            Intent intent = new Intent(Login.this, dashboard.class);
+                            startActivity(intent);
+
+                    }
+                    else{
+                        progressDialog.dismiss();
+                        User.sendEmailVerification();
+                        Toast.makeText(Login.this, "Please verify your email first." +
+                                "Check your Email to verify it.", Toast.LENGTH_SHORT).show();
+                    }
+
+                }
+                else{
+                    progressDialog.dismiss();
+                    Toast.makeText(Login.this, "Incorrect Username or Password.", Toast.LENGTH_SHORT).show();
+                }
+
+
             }
         });
 

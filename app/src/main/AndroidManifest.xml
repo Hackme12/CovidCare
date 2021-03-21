@@ -1,21 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.example.covidcare" >
+    package="com.example.covidcare">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-
-        android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme.NoActionBar"
         tools:targetApi="m">
-        <activity android:name=".NotificationTapAction" >
-        </activity>
+        <activity android:name=".News"></activity>
+        <activity android:name=".NewsInDetail" />
+        <activity android:name=".NotificationTapAction" />
 
         <meta-data
             android:name="com.google.android.geo.API_KEY"
@@ -25,16 +26,17 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-        <activity android:name=".dashboard" />
-        <activity android:name=".Register" />
-        <activity android:name=".Login" />
-        <activity android:name=".MainActivity" >
+        <activity android:name=".dashboard">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".Register" />
+        <activity android:name=".Login" />
+        <activity android:name=".MainActivity" />
+
         <receiver android:name=".Notification" />
     </application>
 
