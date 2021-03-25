@@ -101,11 +101,34 @@ public class MainActivity extends AppCompatActivity {
 
         // Negative latitude represents southern hemisphere and negative longitudes represents western hemisphere
 
+        /*
+
+        check if location is enabled
+        RUN THIS CODE EVERY HALF HOUR
+        if enabled(){
+            GET THE DATA OF EXPOSED AREA AND MEASURE THE DISTANCE
+
+        IF DIST IS LESS THAN 10 METRE PUSH NOTIFICATION
+        }
+
+
+
+
+
+
+
+
+
+
+
+         */
+
+
         new LatLng(33.608721, -101.88792);
         dt.setLatitude1(41.689102777778);
         dt.setLongitude1(-74.044219443334);
         dt.setLongitude2(-74.044219443334);
-        dt.setLatitude2(40.689102777778);
+        dt.setLatitude2(41.689102777778);
 
         double distance = dt.distance_Between_LatLong();
         System.out.println("The distance between two point is: "+ distance +" meter.");

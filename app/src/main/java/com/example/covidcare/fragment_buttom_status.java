@@ -88,6 +88,18 @@ public class fragment_buttom_status extends Fragment {
             public void onClick(View view) {
                 if (status_check && volunteer_check) {
 
+                    /*
+
+                            RUN THIS CODE EVERY AFTER HALF HOUR
+                            GET THE LOCATION OF USER
+                            UPDATE LOCATION TO DATA BASE
+                            Store data only for two days
+                            DATABASE ENTITY = EXPOSED AREA
+
+
+
+
+                     */
                     getFragmentManager().beginTransaction().replace(R.id.frame_layout, new fragment_status_next()).commit();
                 }
                 else {

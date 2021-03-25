@@ -58,16 +58,10 @@ public class fragment_buttom_home extends Fragment {
        usa_total_cases = (TextView)view.findViewById(R.id.tvData_Usa_Total_Case);
        usa_total_death = (TextView)view.findViewById(R.id.tvData_Usa_Total_Death);
        usa_total_recovered = (TextView)view.findViewById(R.id.tvData_Usa_Total_Recovered);
-
-
        list_usa_today_recovered = new ArrayList<>();
-
 
        Content content = new Content();
        content.execute();
-
-
-
 
 
         return view;
@@ -78,16 +72,12 @@ public class fragment_buttom_home extends Fragment {
         @Override
         protected void onPreExecute(){
             super.onPreExecute();
-            progressBar.setVisibility(View.VISIBLE);
-            progressBar.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_in));
-
 
         }
         @Override
         protected void onPostExecute(Void avoid){
             super.onPostExecute(avoid);
-            progressBar.setVisibility(View.GONE);
-            progressBar.startAnimation(AnimationUtils.loadAnimation(getContext(), android.R.anim.fade_out));
+
             global_total_recovers.setText(globalTotalRecovered);
             global_total_deaths.setText(globalTotalDeath);
             global_total_cases.setText(globalTotalCase);
@@ -161,8 +151,13 @@ public class fragment_buttom_home extends Fragment {
             String []arr_data = global_todays_data[7].split(" ");
             globalTodayCase = arr_data[2];
             globalTodayDeath= arr_data[4];
-            globalTodayRecovered = arr_data[6];
 
+            if(arr_data[6].matches("[a-zA-Z]")){
+                globalTodayRecovered = "0";
+            }
+            else {
+                globalTodayRecovered = arr_data[6];
+            }
 
 
 
@@ -205,7 +200,12 @@ public class fragment_buttom_home extends Fragment {
             for(Element data: tableElement.select("td:nth-of-type(8)")){
                 list_usa_today_recovered.add(data.text());
             }
-            usaTodayRecovered = list_usa_today_recovered.get(8);
+            if(list_usa_today_recovered.get(8).equals("")){
+                usaTodayRecovered = "0";
+            }
+            else {
+                usaTodayRecovered = list_usa_today_recovered.get(8);
+            }
         }catch (Exception e){
             e.printStackTrace();
         }

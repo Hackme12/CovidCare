@@ -26,16 +26,17 @@
             android:name="org.apache.http.legacy"
             android:required="false" />
 
-        <activity android:name=".dashboard">
+        <activity android:name=".dashboard"/>
+
+        <activity android:name=".Register" />
+        <activity android:name=".Login" />
+        <activity android:name=".MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Register" />
-        <activity android:name=".Login" />
-        <activity android:name=".MainActivity" />
 
         <receiver android:name=".Notification" />
     </application>

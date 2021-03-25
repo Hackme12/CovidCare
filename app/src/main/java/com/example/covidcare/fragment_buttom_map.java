@@ -25,6 +25,8 @@ import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
 
 public class fragment_buttom_map extends Fragment implements OnMapReadyCallback {
 
@@ -32,15 +34,14 @@ public class fragment_buttom_map extends Fragment implements OnMapReadyCallback 
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
     SupportMapFragment mapFragment;
-    FusedLocationProviderClient client;
     private GoogleMap mMap;
+    private ArrayList<LatLng> latLngArrayList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_map, container, false);
-
 
         mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.google_map);
@@ -59,23 +60,61 @@ public class fragment_buttom_map extends Fragment implements OnMapReadyCallback 
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        /*
+
+
+        CODE TO GET ALL THE DATA FROM EXPOSED AREA and Put them in low risk area
+
+
+
+
+         */
+
+        /*
+
+
+        LIKELY PLACE ARE ALWAYS IN RED ZONE
+
+
+         */
+
+
+
+
+
+
+
+
         // Add a marker in Sydney and move the camera
         LatLng indiana = new LatLng(33.608721, -101.88792);
-        mMap.addMarker(new MarkerOptions()
-                .position(indiana)
-                .icon(BitmapFromVector(getContext(),R.drawable.icon_covid))
-                .title("Marker in Indiana Village")
+        LatLng indianaa = new LatLng(33.608411, -101.88792);
+        latLngArrayList = new ArrayList<>();
+        latLngArrayList.add(indiana);
+        latLngArrayList.add(indianaa);
 
-        );
+        for (int i =0; i<latLngArrayList.size();i++){
+            mMap.addMarker(new MarkerOptions()
+                    .position(latLngArrayList.get(i))
+                    .icon(BitmapFromVector(getContext(),R.drawable.covidsign))
+                    .title("Recently Covid-19 Exposed Area")
+            );
+            mMap.animateCamera(CameraUpdateFactory.zoomIn());
+            //ZOOM OUT
+            mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
+            mMap.getUiSettings().setZoomControlsEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(true);
+
+
+        }
+
+
+
+
+
 
        // mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
         //float zoomLevel = 16.0f; //This goes up to 21
         //zOOM IN
-        mMap.animateCamera(CameraUpdateFactory.zoomIn());
-        //ZOOM OUT
-        mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
-        mMap.getUiSettings().setZoomControlsEnabled(true);
-        mMap.getUiSettings().setMyLocationButtonEnabled(true);
 
 
         //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, zoomLevel));
