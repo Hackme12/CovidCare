@@ -100,11 +100,13 @@ public class Register extends AppCompatActivity {
                 switch (i) {
                     case R.id.maleRbtn:
                         sex = "Male";
+                        break;
                     case R.id.femaleRbtn:
                         sex = "Female";
-
+                        break;
                     case R.id.otherRbtn:
                         sex = "Others";
+                        break;
                 }
             }
         });
@@ -117,12 +119,13 @@ public class Register extends AppCompatActivity {
                     if(task.isSuccessful()){
 
 
-                        User user = new User(fullName,email,password,phoneNumber,emerPhone,dob,sex);
+                        User user = new User(fullName,email,phoneNumber,emerPhone,dob,sex);
 
                         FirebaseAuth.getInstance().getCurrentUser().sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 if(task.isSuccessful()){
+
 
                                     reference.child(FirebaseAuth.getInstance().getCurrentUser().getUid()).setValue(user)
                                             .addOnCompleteListener(new OnCompleteListener<Void>() {

@@ -3,7 +3,7 @@ package com.example.covidcare;
 public class User {
     public String fullName;
     public String email;
-    public String password;
+
     public String phoneNumber;
     public String emerPhone;
     public String dob;
@@ -12,10 +12,10 @@ public class User {
     public User(){
 
     }
-    public User(String fullName, String email, String password, String phoneNumber, String emerPhone, String dob, String sex){
+    public User(String fullName, String email,  String phoneNumber, String emerPhone, String dob, String sex){
         this.fullName = fullName;
         this.email = email;
-        this.password = password;
+
         this.phoneNumber = phoneNumber;
         this.emerPhone = emerPhone;
         this.dob = dob;
@@ -38,13 +38,6 @@ public class User {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
 
     public String getPhoneNumber() {
         return phoneNumber;

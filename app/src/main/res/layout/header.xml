@@ -14,9 +14,10 @@
         ></de.hdodenhof.circleimageview.CircleImageView>
 
     <TextView
-        android:layout_width="wrap_content"
+        android:id="@+id/tv_UserName_drawer"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="100dp"
+        android:textAlignment="center"
         android:text="User Name"
         android:textColor="@color/white"
         android:textSize="25dp"

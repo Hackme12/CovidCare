@@ -160,7 +160,6 @@ public class fragment_buttom_home extends Fragment {
             }
 
 
-
             // Scrapping
 
 

@@ -32,16 +32,13 @@ public class newsAdapter extends RecyclerView.Adapter<newsAdapter.myViewHolder> 
     public newsAdapter(Context context, List<com.kwabenaberko.newsapilib.models.Article> articles){
         this.context = context;
         this.articleList = articles;
-
     }
 
     @NonNull
     @Override
     public myViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType)
     {
-
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.news_layout,parent,false);
-
         return new myViewHolder(view);
     }
 

@@ -3,15 +3,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#175959"
+    android:background="#80D8FF"
     tools:context=".fragment_status_next">
 
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="We will be sending notification when you are near by any exposed areas, people
-Be alert!!!!
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:layout_marginTop="200dp"
+        android:textSize="30dp"
+        android:textAlignment="center"
+        android:textColor="#062949"
+        android:text="Thank you for sharing your location!
+Our application will use your location as an exposed area. This will help your community to control the spreading virus.
 " />
 
 </FrameLayout>

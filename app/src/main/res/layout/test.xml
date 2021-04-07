@@ -1,0 +1,715 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+
+    android:background="#69ACDD"
+    android:layout_height="match_parent"
+    tools:context=".fragment_buttom_home">
+
+    <!-- TODO: Update blank fragment layout -->
+
+
+    <LinearLayout
+        android:layout_marginTop="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/tvGLOBAL"
+            android:layout_width="151dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="137dp"
+            android:layout_marginEnd="132dp"
+            android:gravity="center"
+            android:text="GLOBAL"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="20dp">
+        </TextView>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout1"
+        android:layout_width="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="12dp"
+        android:background="@drawable/whitebuttonlayout"
+        android:backgroundTint="#82EFE4"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_row="1"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+
+            card_view:cardCornerRadius="10dp">
+
+            <TextView
+                android:id="@+id/info_text"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Today's cases"
+                android:textAlignment="center"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvData_TodaysCase"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:padding="10dp"
+                android:text="data"
+                android:textAlignment="center"
+                android:textColor="#EAAB0A"
+
+                ></TextView>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view2"
+            android:layout_width="129dp"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:layout_marginLeft="10dp"
+            card_view:cardCornerRadius="10dp">
+
+            <TextView
+                android:id="@+id/tvRecover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:text="Today's Recovered"
+                android:textAlignment="center"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvData_TodayRecovered"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:padding="10dp"
+                android:text="data"
+                android:textAlignment="center"
+                android:textColor="#12C305"></TextView>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/card_view3"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            card_view:cardCornerRadius="10dp">
+
+            <TextView
+                android:id="@+id/tvDeath"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:text="Today's Death"
+                android:textAlignment="center"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvData_TodayDeath"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:padding="10dp"
+                android:text="data"
+                android:textAlignment="center"
+                android:textColor="#F60629"></TextView>
+        </androidx.cardview.widget.CardView>
+
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/linear_layout2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linear_layout1"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="18dp"
+        android:background="@drawable/whitebuttonlayout"
+        android:backgroundTint="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <androidx.cardview.widget.CardView
+
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            card_view:cardCornerRadius="10dp">
+
+            <TextView
+                android:id="@+id/tvTotalWorldCases"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="Total cases"
+                android:textAlignment="center"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvData_Total_Case"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:padding="10dp"
+                android:text="data"
+                android:textAlignment="center"
+                android:textColor="#EAAB0A"
+
+                ></TextView>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_width="129dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:layout_marginLeft="10dp"
+            card_view:cardCornerRadius="10dp">
+
+            <TextView
+                android:id="@+id/tvTotalRecover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:text="Total Recovered"
+                android:textAlignment="center"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvData_Total_Recovered"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:padding="10dp"
+                android:text="data"
+                android:textAlignment="center"
+                android:textColor="#12C305"></TextView>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView xmlns:card_view="http://schemas.android.com/apk/res-auto"
+
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            card_view:cardCornerRadius="10dp">
+
+            <TextView
+                android:id="@+id/tvTotal_Death"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginStart="10dp"
+                android:text="Total Death"
+                android:textAlignment="center"
+                android:textColor="@color/black" />
+
+            <TextView
+                android:id="@+id/tvData_Total_Death"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="30dp"
+                android:padding="10dp"
+                android:text="data"
+                android:textAlignment="center"
+                android:textColor="#F60629"></TextView>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/linear_layout2"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvUSA"
+            android:layout_width="151dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="137dp"
+            android:layout_marginEnd="132dp"
+            android:gravity="center"
+            android:text="USA"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="20dp">
+
+        </TextView>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linear_layout2"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="18dp"
+        android:background="@drawable/whitebuttonlayout"
+        android:backgroundTint="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <androidx.cardview.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="10dp">
+
+            <TextView
+                android:text="Today's cases"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tvData_Usa_Todays_Case"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="data"
+                android:padding="10dp"
+                android:textColor="#EAAB0A"
+                android:textAlignment="center"
+                android:layout_marginTop="30dp"
+
+                ></TextView>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+
+            android:layout_marginLeft="10dp"
+            android:layout_width="129dp"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="10dp">
+
+            <TextView
+                android:text="Today's Recovered"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:layout_marginStart="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tvData_Usa_todays_Recover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="data"
+                android:padding="10dp"
+                android:textColor="#12C305"
+                android:textAlignment="center"
+                android:layout_marginTop="30dp"
+                ></TextView>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="10dp">
+
+            <TextView
+                android:text="Today's Death"
+                android:textColor="@color/black"
+                android:layout_marginStart="10dp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tvData_Usa_today_Death"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:text="data"
+                android:textColor="#F60629"
+                android:textAlignment="center"
+                android:layout_marginTop="30dp"
+                ></TextView>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linear_layout3"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="18dp"
+        android:background="@drawable/whitebuttonlayout"
+        android:backgroundTint="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <androidx.cardview.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+
+            android:layout_marginStart="30dp"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="10dp">
+
+            <TextView
+                android:text="Total cases"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tvData_Usa_Total_Case"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="data"
+                android:padding="10dp"
+                android:textColor="#EAAB0A"
+                android:textAlignment="center"
+                android:layout_marginTop="30dp"
+
+                ></TextView>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:layout_marginLeft="10dp"
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="10dp">
+
+            <TextView
+
+                android:text="Total Recovered"
+                android:textColor="@color/black"
+                android:layout_marginStart="10dp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tvData_Usa_Total_Recovered"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="data"
+                android:padding="10dp"
+                android:textColor="#12C305"
+                android:textAlignment="center"
+                android:layout_marginTop="30dp"
+                ></TextView>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="10dp">
+
+            <TextView
+
+                android:text="Total Death"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:layout_marginStart="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tvData_Usa_Total_Death"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:text="data"
+                android:textColor="#F60629"
+                android:textAlignment="center"
+                android:layout_marginTop="30dp"
+                ></TextView>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+
+
+    <LinearLayout
+
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/linear_layout4"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/tvLocal"
+            android:layout_width="151dp"
+            android:layout_height="match_parent"
+            android:layout_marginStart="137dp"
+            android:layout_marginEnd="132dp"
+            android:gravity="center"
+            android:text="LOCAL"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="20dp">
+
+        </TextView>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear_layout5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linear_layout4"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="18dp"
+        android:background="@drawable/whitebuttonlayout"
+        android:backgroundTint="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <androidx.cardview.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:layout_marginStart="30dp"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            card_view:cardCornerRadius="10dp">
+
+            <TextView
+                android:text="Today's cases"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tvData_local_Todays_Case"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="data"
+                android:padding="10dp"
+                android:textColor="#EAAB0A"
+                android:textAlignment="center"
+                android:layout_marginTop="30dp"
+
+                ></TextView>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+
+            android:layout_marginLeft="10dp"
+            android:layout_width="129dp"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="10dp">
+
+            <TextView
+                android:text="Today's Recovered"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:layout_marginStart="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tvData_Local_todays_Recover"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="data"
+                android:padding="10dp"
+                android:textColor="#12C305"
+                android:textAlignment="center"
+                android:layout_marginTop="30dp"
+                ></TextView>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="10dp">
+
+            <TextView
+                android:text="Today's Death"
+                android:textColor="@color/black"
+                android:layout_marginStart="10dp"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tvData_Local_today_Death"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:text="data"
+                android:textColor="#F60629"
+                android:textAlignment="center"
+                android:layout_marginTop="30dp"
+                ></TextView>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linear_layout5"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="18dp"
+        android:background="@drawable/whitebuttonlayout"
+        android:backgroundTint="@color/white"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <androidx.cardview.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+
+            android:layout_marginStart="30dp"
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="10dp">
+
+            <TextView
+                android:text="Total cases"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tvData_Local_Total_Case"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="data"
+                android:padding="10dp"
+                android:textColor="#EAAB0A"
+                android:textAlignment="center"
+                android:layout_marginTop="30dp"
+
+                ></TextView>
+        </androidx.cardview.widget.CardView>
+        <androidx.cardview.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+            android:layout_marginLeft="10dp"
+
+            android:layout_width="130dp"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="10dp">
+
+            <TextView
+
+                android:text="Total Recovered"
+                android:textColor="@color/black"
+                android:textAlignment="center"
+                android:layout_marginStart="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tvData_Local_Total_Recovered"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="data"
+                android:padding="10dp"
+                android:textColor="#12C305"
+                android:textAlignment="center"
+                android:layout_marginTop="30dp"
+                ></TextView>
+        </androidx.cardview.widget.CardView>
+
+
+        <androidx.cardview.widget.CardView
+            xmlns:card_view="http://schemas.android.com/apk/res-auto"
+            android:layout_gravity="center"
+            android:layout_margin="5dp"
+
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            card_view:cardCornerRadius="10dp">
+
+            <TextView
+
+                android:text="Total Death"
+                android:textAlignment="center"
+                android:textColor="@color/black"
+                android:layout_marginStart="10dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/tvData_Local_Total_Death"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="10dp"
+                android:text="data"
+                android:textColor="#F60629"
+                android:textAlignment="center"
+                android:layout_marginTop="30dp"
+                ></TextView>
+        </androidx.cardview.widget.CardView>
+
+    </LinearLayout>
+
+
+
+</RelativeLayout>

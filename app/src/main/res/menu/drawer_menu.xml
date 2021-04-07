@@ -33,9 +33,9 @@
             ></item>
 
         <item
-            android:title="Vaccine Info"
+            android:title="Vaccine Review"
             android:id="@+id/menu_vaccine_info"
-            android:icon="@drawable/icon_info"
+            android:icon="@drawable/icon_review"
             ></item>
         <item
             android:title="Help"

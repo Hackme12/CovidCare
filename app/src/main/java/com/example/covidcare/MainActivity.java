@@ -220,47 +220,6 @@ public class MainActivity extends AppCompatActivity {
         super.onBackPressed();
     }
 
-//    private class Content extends AsyncTask<Void, Void, Void> {
-//
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            progressDialog = new ProgressDialog(MainActivity.this);
-//            progressDialog.show();
-//        }
-//
-//        @Override
-//        protected Void doInBackground(Void... voids) {
-//            try {
-//                //Connect to the website
-//                Document document = Jsoup.connect("https://jsoup.org/cookbook/input/load-document-from-url").get();
-//                title = document.title();
-//                System.out.println("TITLE OF DOCUMENT IS : " + document.title());
-//
-//
-//                //Get the logo source of the website
-//                Element img = document.select("img").first();
-//                // Locate the src attribute
-//                String imgSrc = img.absUrl("src");
-//                // Download image from URL
-//                InputStream input = new java.net.URL(imgSrc).openStream();
-//                // Decode Bitmap
-//
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            return null;
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Void aVoid) {
-//            super.onPostExecute(aVoid);
-//            btnNext.setText(title);
-//            progressDialog.dismiss();
-//        }
-//    }
-
-
 
 
 
