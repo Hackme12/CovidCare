@@ -38,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private ViewPager mslideViewPager;
     private LinearLayout dot_layout;
     private Button btnNext, btnPrev;
-    private ProgressDialog progressDialog;
+
 
 
 
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView [] mDots;
     private int mCurrentPage;
-    String title;
+
 
     private slide_page_adaptar slide_adaptar;
     @Override
@@ -88,62 +88,6 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-
-
-
-        //*******************************************************************************//
-
-
-        //Push notification if the user is near by exposed area
-        // Testing the function of notification by setting the latitude and longitude of current user and assumed latitude and longitude of exposed area
-
-        // Negative latitude represents southern hemisphere and negative longitudes represents western hemisphere
-
-        /*
-
-        check if location is enabled
-        RUN THIS CODE EVERY HALF HOUR
-        if enabled(){
-            GET THE DATA OF EXPOSED AREA AND MEASURE THE DISTANCE
-
-        IF DIST IS LESS THAN 10 METRE PUSH NOTIFICATION
-        }
-
-
-
-
-
-
-
-
-
-
-
-         */
-
-
-        new LatLng(33.608721, -101.88792);
-        dt.setLatitude1(41.689102777778);
-        dt.setLongitude1(-74.044219443334);
-        dt.setLongitude2(-74.044219443334);
-        dt.setLatitude2(41.689102777778);
-
-        double distance = dt.distance_Between_LatLong();
-        System.out.println("The distance between two point is: "+ distance +" meter.");
-        if(dt.check_if_in_exposed_area()==true){
-            callNotification();
-
-        }
-        else{
-            System.out.println("safe area");
-        }
-
-
-        //*******************************************************************************//
-
-
 
     }
 
@@ -206,13 +150,7 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    public void callNotification(){
-        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
-        Intent notificationIntent = new Intent(this, Notification.class);
-        PendingIntent broadcast = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        Calendar cal = Calendar.getInstance();
-        alarmManager.setExact(AlarmManager.RTC_WAKEUP,cal.getTimeInMillis(),broadcast);
-    }
+
 
     @Override
     public void onBackPressed() {

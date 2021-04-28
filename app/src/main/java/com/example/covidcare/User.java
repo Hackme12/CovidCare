@@ -5,19 +5,18 @@ public class User {
     public String email;
 
     public String phoneNumber;
-    public String emerPhone;
     public String dob;
     public String sex;
 
-    public User(){
+    public User() {
 
     }
-    public User(String fullName, String email,  String phoneNumber, String emerPhone, String dob, String sex){
+
+    public User(String fullName, String email, String phoneNumber, String dob, String sex) {
         this.fullName = fullName;
         this.email = email;
 
         this.phoneNumber = phoneNumber;
-        this.emerPhone = emerPhone;
         this.dob = dob;
         this.sex = sex;
     }
@@ -47,13 +46,6 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
-    public String getEmerPhone() {
-        return emerPhone;
-    }
-
-    public void setEmerPhone(String emerPhone) {
-        this.emerPhone = emerPhone;
-    }
 
     public String getDob() {
         return dob;

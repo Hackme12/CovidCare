@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="#69ACDD"
     android:layoutMode="clipBounds"
-    tools:context=".fragment_buttom_status">
+    tools:context=".Status">
 
     <!-- TODO: Update blank fragment layout -->
 

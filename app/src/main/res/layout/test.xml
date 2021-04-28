@@ -6,7 +6,7 @@
 
     android:background="#69ACDD"
     android:layout_height="match_parent"
-    tools:context=".fragment_buttom_home">
+    tools:context=".bottom_home">
 
     <!-- TODO: Update blank fragment layout -->
 

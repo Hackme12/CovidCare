@@ -45,7 +45,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 
-public class fragment_buttom_map extends Fragment implements OnMapReadyCallback {
+public class Google_Map extends Fragment implements OnMapReadyCallback {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -87,8 +87,9 @@ public class fragment_buttom_map extends Fragment implements OnMapReadyCallback 
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
             Toast.makeText(getContext(), "Please Enable the location first", Toast.LENGTH_SHORT).show();
-
         }
+
+
         fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
             public void onSuccess(Location location) {
@@ -125,7 +126,6 @@ public class fragment_buttom_map extends Fragment implements OnMapReadyCallback 
                     for (DataSnapshot exposedLocation : snapshot.getChildren()) {
                         latLang = exposedLocation.getValue(LatLang.class);
                         latLng = new LatLng(latLang.getLatitude(), latLang.getLongitude());
-                        System.out.println(latLang.getLatitude()+"<<<<<<<" +latLang.getLongitude());
                         locationArrayList.add(latLng);
                         //System.out.println("+++++++"+locationArrayList.get(i));
                         //latLngArrayList.add(latLng);
@@ -135,11 +135,9 @@ public class fragment_buttom_map extends Fragment implements OnMapReadyCallback 
                                 .icon(BitmapFromVector(getContext(),R.drawable.covidsign))
                                 .title(locationArrayList.get(i).latitude +"  ,  "+ locationArrayList.get(i).longitude)
                         );
-
                         i++;
                         System.out.println("SIZE OF ARRAY: "+ locationArrayList.size());
                     }
-
                 }
             }
             @Override
@@ -152,14 +150,10 @@ public class fragment_buttom_map extends Fragment implements OnMapReadyCallback 
 
 
 
-
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         //LatLng userCurrentLocation = new LatLng(dashboard.getLatitude(),dashboard.getLongitude());
-
-
         mMap.animateCamera(CameraUpdateFactory.zoomIn());
         mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
         mMap.getUiSettings().setZoomControlsEnabled(true);

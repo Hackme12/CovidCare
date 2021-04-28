@@ -1,31 +1,57 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:background="@color/teal_200"
+    android:orientation="vertical"
+    android:background="@drawable/box_layout_background"
     android:layout_height="match_parent">
 
+
+    <ImageView
+        android:layout_width="200dp"
+        android:layout_height="300dp"
+        android:layout_marginLeft="100dp"
+        android:src="@drawable/icon_cocvid_1" />
+
     <TextView
-        android:id="@+id/info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
         android:textAlignment="center"
-        android:text="This app is created by students of Texas Tech University majoring in computer science. "
+        android:text="About Us:"
+        android:textColor="@color/black"
+        android:textSize="30dp"
+        />
 
-        >
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Covid Care app is designed by a University students. The motivation behind
+        development of this app is to help the community control the COVID-19 exposer."
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="20dp" />
 
-    </TextView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="30dp"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:text="Contact Us:"
+        android:layout_marginTop="40dp"
 
-   <TextView
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:layout_below="@+id/info"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="20dp"
+        android:textColor="@color/black"
+        android:textAlignment="center"
+        android:text="Phone Number: 111-111-1111 \n Email: CovidCare19@gmail.com"
 
-       ></TextView>
+        />
 
 
 
-
-</RelativeLayout>
+</LinearLayout>

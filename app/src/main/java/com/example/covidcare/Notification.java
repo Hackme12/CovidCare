@@ -14,10 +14,8 @@ import androidx.core.app.NotificationCompat;
 
 import static android.app.NotificationManager.IMPORTANCE_DEFAULT;
 
-public class Notification extends  BroadcastReceiver {
+public class Notification extends BroadcastReceiver {
     private static final String CHANNEL_ID = "Senior_Capstone_Team_Covid_Care";
-
-
 
 
     @Override

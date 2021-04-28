@@ -17,7 +17,7 @@
             android:id="@+id/myToolbar"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@color/teal_700"
+            android:background="@drawable/box_layout_background"
             android:minHeight="?attr/actionBarSize"
             android:theme="?attr/actionBarTheme"
             tools:ignore="MissingConstraints">
@@ -70,7 +70,7 @@
         app:headerLayout="@layout/header"
         app:menu="@menu/drawer_menu"
         android:fitsSystemWindows="true"
-        app:itemTextAppearance="?android:attr/textAppearanceMedium"
+        android:background="@drawable/layout_background"
         android:layout_gravity="start"
         ></com.google.android.material.navigation.NavigationView>
 

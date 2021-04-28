@@ -14,9 +14,8 @@ public class slide_page_adaptar extends PagerAdapter {
     Context context;
     LayoutInflater inflater;
 
-    public slide_page_adaptar(Context context)
-    {
-    this.context = context;
+    public slide_page_adaptar(Context context) {
+        this.context = context;
 
     }
 
@@ -34,10 +33,10 @@ public class slide_page_adaptar extends PagerAdapter {
     }
 
     @Override
-    public Object instantiateItem(ViewGroup container, int position){
-        inflater = (LayoutInflater)context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.slide_layout,container,false);
-        ImageView slideImage = (ImageView)view.findViewById(R.id.imageView);
+    public Object instantiateItem(ViewGroup container, int position) {
+        inflater = (LayoutInflater) context.getSystemService(context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.slide_layout, container, false);
+        ImageView slideImage = (ImageView) view.findViewById(R.id.imageView);
 
         slideImage.setImageResource(slide_images[position]);
 
@@ -46,8 +45,8 @@ public class slide_page_adaptar extends PagerAdapter {
     }
 
     @Override
-    public void destroyItem(ViewGroup container, int position, Object object){
-        container.removeView((RelativeLayout)object);
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        container.removeView((RelativeLayout) object);
     }
 
 

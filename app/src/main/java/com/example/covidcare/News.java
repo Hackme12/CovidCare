@@ -53,7 +53,14 @@ public class News extends AppCompatActivity {
         tvBack = (TextView) findViewById(R.id.back_tv);
         recyclerView = (RecyclerView) findViewById(R.id.news_recycleView_1);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        linearLayoutManager.setReverseLayout(true);
+        linearLayoutManager.setStackFromEnd(true);
+
+
         recyclerView.setLayoutManager(linearLayoutManager);
+
+
+
         DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
                 linearLayoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);

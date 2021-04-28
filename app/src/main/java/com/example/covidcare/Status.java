@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,28 +28,28 @@ import com.google.firebase.database.ValueEventListener;
 import static android.content.ContentValues.TAG;
 
 
-public class fragment_buttom_status extends Fragment {
+public class Status extends Fragment {
 
-   private Button btnNext ;
-   private TextView tv_cvd_volunteer;
-   private RadioGroup Rbtn_volunteer;
-   boolean status_check = false;
-   boolean volunteer_check = false;
-   boolean check_if_selected= false;
-   FirebaseUser currentUser;
-   FirebaseDatabase database;
-   DatabaseReference reference;
-   DatabaseReference refExposedArea;
-   FirebaseAuth auth;
+    private Button btnNext;
+    private TextView tv_cvd_volunteer;
+    private RadioGroup Rbtn_volunteer;
+    boolean status_check = false;
+    boolean volunteer_check = false;
+    boolean check_if_selected = false;
+    FirebaseUser currentUser;
+    FirebaseDatabase database;
+    DatabaseReference reference;
+    DatabaseReference refExposedArea;
+    FirebaseAuth auth;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_bottom_status, container, false);
-        RadioGroup radioGroup = (RadioGroup) view .findViewById(R.id.radio_status);
-        btnNext = (Button)view.findViewById(R.id.btn_status_next);
-        tv_cvd_volunteer = (TextView)view.findViewById(R.id.text_cvd_volunteer);
+        RadioGroup radioGroup = (RadioGroup) view.findViewById(R.id.radio_status);
+        btnNext = (Button) view.findViewById(R.id.btn_status_next);
+        tv_cvd_volunteer = (TextView) view.findViewById(R.id.text_cvd_volunteer);
         Rbtn_volunteer = (RadioGroup) view.findViewById(R.id.radio_volunteer);
         btnNext.setVisibility(View.INVISIBLE);
 
@@ -63,12 +62,11 @@ public class fragment_buttom_status extends Fragment {
         refExposedArea = database.getReference().child("Exposed Area");
         currentUser = auth.getCurrentUser();
 
-        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener()
-        {
+        radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             public void onCheckedChanged(RadioGroup group, int checkedId) {
                 // checkedId is the RadioButton selected
 
-                switch(checkedId) {
+                switch (checkedId) {
                     case R.id.radio_status_btn_yes:
 
                         tv_cvd_volunteer.setVisibility(View.VISIBLE);
@@ -94,7 +92,7 @@ public class fragment_buttom_status extends Fragment {
         Rbtn_volunteer.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
-                switch (i){
+                switch (i) {
                     case R.id.radio_volunteer_btn_yes:
                         volunteer_check = true;
                         btnNext.setVisibility(View.VISIBLE);
@@ -105,7 +103,6 @@ public class fragment_buttom_status extends Fragment {
                         btnNext.setVisibility(View.VISIBLE);
 
                         break;
-
 
 
                 }
@@ -120,36 +117,31 @@ public class fragment_buttom_status extends Fragment {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                            if(snapshot.child("User").child(currentUser.getUid()).exists()) {
+                            if (snapshot.child("User").child(currentUser.getUid()).exists()) {
                                 reference.child("User").child(currentUser.getUid()).child("Covid Check").child("Status").setValue("Positive");
                                 reference.child("User").child(currentUser.getUid()).child("Covid Check").child("Volunteer").setValue("Yes");
-                            }
-                            else{
+                            } else {
                                 Toast.makeText(getContext(), "User not found in database!!", Toast.LENGTH_SHORT).show();
                             }
                         }
+
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
                             Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
 
-                    getFragmentManager().beginTransaction().replace(R.id.frame_layout, new fragment_status_next()).commit();
-                }
-
-
-
-                else if(status_check && !volunteer_check) {
+                    getFragmentManager().beginTransaction().replace(R.id.frame_layout, new Status_Next()).commit();
+                } else if (status_check && !volunteer_check) {
 
                     reference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                            if(snapshot.child("User").child(currentUser.getUid()).exists()) {
+                            if (snapshot.child("User").child(currentUser.getUid()).exists()) {
                                 reference.child("User").child(currentUser.getUid()).child("Covid Check").child("Status").setValue("Positive");
                                 reference.child("User").child(currentUser.getUid()).child("Covid Check").child("Volunteer").setValue("No");
-                            }
-                            else{
+                            } else {
                                 Toast.makeText(getContext(), "User not found in database!!", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -159,21 +151,18 @@ public class fragment_buttom_status extends Fragment {
                             Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
-                    getFragmentManager().beginTransaction().replace(R.id.frame_layout, new fragment_status_volunteer_no()).commit();
-                }
-
-                else if(!status_check && !volunteer_check){
+                    getFragmentManager().beginTransaction().replace(R.id.frame_layout, new Status_Next_No()).commit();
+                } else if (!status_check && !volunteer_check) {
                     reference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                            if(snapshot.child("User").child(currentUser.getUid()).exists()) {
+                            if (snapshot.child("User").child(currentUser.getUid()).exists()) {
                                 reference.child("User").child(currentUser.getUid()).child("Covid Check").child("Status").setValue("Negative");
                                 reference.child("User").child(currentUser.getUid()).child("Covid Check").child("Volunteer").setValue("No");
 
 
-                            }
-                            else{
+                            } else {
                                 Toast.makeText(getContext(), "User not found in database!!", Toast.LENGTH_SHORT).show();
                             }
                         }
@@ -189,7 +178,7 @@ public class fragment_buttom_status extends Fragment {
                     ValueEventListener valueEventListener = new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
-                            for(DataSnapshot ds : dataSnapshot.getChildren()) {
+                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
                                 String hotelName = ds.getKey();
                                 Log.d(TAG, hotelName);
                                 System.out.println(hotelName);
@@ -210,11 +199,11 @@ public class fragment_buttom_status extends Fragment {
                             .setPositiveButton("               OK", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialogInterface, int i) {
-                                    Intent intent = new Intent(getContext(),dashboard.class);
+                                    Intent intent = new Intent(getContext(), dashboard.class);
                                     startActivity(intent);
                                 }
                             })
-                            .setNegativeButton("Cancel",null)
+                            .setNegativeButton("Cancel", null)
                             .setCancelable(false)
                             .show()
                     ;
@@ -223,17 +212,11 @@ public class fragment_buttom_status extends Fragment {
                 }
 
 
-
-
             }
         });
 
         return view;
     }
-
-
-
-
 
 
 }

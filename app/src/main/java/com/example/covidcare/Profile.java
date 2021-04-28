@@ -21,7 +21,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 
-public class fragment_drawer_profile extends Fragment {
+public class Profile extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,7 +36,6 @@ public class fragment_drawer_profile extends Fragment {
     User user;
 
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -49,7 +48,7 @@ public class fragment_drawer_profile extends Fragment {
         PhoneNumber = view.findViewById(R.id.phoneEditText_update);
         Emer_PhoneNumber = view.findViewById(R.id.phone_emergencyEdittext_update);
         Dob = view.findViewById(R.id.Dob_editText_update);
-       // user = new User();
+        // user = new User();
         Submitbtn = view.findViewById(R.id.SubmitBtn);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -62,7 +61,7 @@ public class fragment_drawer_profile extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                user  = snapshot.child(current_user.getUid()).getValue(User.class);
+                user = snapshot.child(current_user.getUid()).getValue(User.class);
 
                 Fname.setText(user.getFullName());
                 Email.setText(user.getEmail());
@@ -82,20 +81,16 @@ public class fragment_drawer_profile extends Fragment {
             @Override
             public void onClick(View view) {
 
-                if(isNameChanged()||isEmailChanged()||isPhoneChanged()||isEmerPhoneChanged()||isDobChanged()){
+                if (isNameChanged() || isEmailChanged() || isPhoneChanged() || isEmerPhoneChanged() || isDobChanged()) {
                     Toast.makeText(getContext(), "Information updated!", Toast.LENGTH_SHORT).show();
                     //getChildFragmentManager().beginTransaction().replace(R.id.frame_layout,new fragment_buttom_home()).commit();
-                    Intent intent = new Intent(getContext(),dashboard.class);
+                    Intent intent = new Intent(getContext(), dashboard.class);
                     startActivity(intent);
 
 
-                }
-                else {
+                } else {
                     Toast.makeText(getContext(), "No new information.", Toast.LENGTH_SHORT).show();
                 }
-
-
-
 
 
             }
@@ -105,46 +100,49 @@ public class fragment_drawer_profile extends Fragment {
         return view;
     }
 
-    public boolean isNameChanged(){
-        if(Fname!=(Fname.getEditableText())){
+    public boolean isNameChanged() {
+        if (Fname != (Fname.getEditableText())) {
             reference.child(current_user.getUid()).child(user.getFullName()).setValue(Fname.getText().toString());
             return true;
         }
-        return  false;
+        return false;
 
     }
-    public boolean isEmailChanged(){
-        if(Email!=(Email.getEditableText())){
+
+    public boolean isEmailChanged() {
+        if (Email != (Email.getEditableText())) {
             reference.child(current_user.getUid()).child("email").setValue(Email.getText().toString());
             return true;
         }
-        return  false;
+        return false;
 
     }
-    public boolean isPhoneChanged(){
-        if(PhoneNumber!=(PhoneNumber.getEditableText())){
+
+    public boolean isPhoneChanged() {
+        if (PhoneNumber != (PhoneNumber.getEditableText())) {
             reference.child(current_user.getUid()).child("phoneNumber").setValue(PhoneNumber.getText().toString());
             return true;
         }
-        return  false;
+        return false;
     }
-    public boolean isEmerPhoneChanged(){
-        if(Emer_PhoneNumber!=(Emer_PhoneNumber.getEditableText())){
+
+    public boolean isEmerPhoneChanged() {
+        if (Emer_PhoneNumber != (Emer_PhoneNumber.getEditableText())) {
             reference.child(current_user.getUid()).child("emerPhone").setValue(Emer_PhoneNumber.getText().toString());
             return true;
         }
-        return  false;
+        return false;
 
     }
-    public boolean isDobChanged(){
-        if(Dob!=(Dob.getEditableText())){
+
+    public boolean isDobChanged() {
+        if (Dob != (Dob.getEditableText())) {
             reference.child(current_user.getUid()).child("dob").setValue(Dob.getText().toString());
             return true;
         }
-        return  false;
+        return false;
 
     }
-
 
 
 }

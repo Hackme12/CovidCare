@@ -15,10 +15,10 @@ import java.util.ArrayList;
 
 public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.myViewHolder> {
     Context context;
-    ArrayList<ReviewForm>reviewForms;
+    ArrayList<Review>reviewForms;
 
 
-    public ReviewAdapter(Context context, ArrayList<ReviewForm>reviewForms){
+    public ReviewAdapter(Context context, ArrayList<Review>reviewForms){
         this.context = context;
         this.reviewForms = reviewForms;
     }
@@ -34,7 +34,7 @@ public class ReviewAdapter extends RecyclerView.Adapter<ReviewAdapter.myViewHold
     @Override
     public void onBindViewHolder(@NonNull ReviewAdapter.myViewHolder holder, int position) {
         holder.review.setText(reviewForms.get(position).getReview());
-        holder.userName.setText(reviewForms.get(position).getUserName());
+        holder.userName.setText(reviewForms.get(position).getUsername());
 
     }
 

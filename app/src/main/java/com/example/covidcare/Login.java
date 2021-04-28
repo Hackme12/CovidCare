@@ -24,6 +24,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class Login extends AppCompatActivity {
 
@@ -35,8 +40,6 @@ public class Login extends AppCompatActivity {
     ProgressDialog progressDialog;
     FirebaseAuth authentication;
     FirebaseUser firebaseUser;
-
-
 
 
     @Override
@@ -171,11 +174,11 @@ public class Login extends AppCompatActivity {
 
                 if(task.isSuccessful()){
                     FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
+
                     if(User.isEmailVerified()){
                             progressDialog.dismiss();
                             Intent intent = new Intent(Login.this, dashboard.class);
                             startActivity(intent);
-
                     }
                     else{
                         progressDialog.dismiss();
@@ -183,7 +186,6 @@ public class Login extends AppCompatActivity {
                         Toast.makeText(Login.this, "Please verify your email first." +
                                 "Check your Email to verify it.", Toast.LENGTH_SHORT).show();
                     }
-
                 }
                 else{
                     progressDialog.dismiss();

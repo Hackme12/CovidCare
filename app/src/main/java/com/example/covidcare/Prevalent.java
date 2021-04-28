@@ -1,6 +1,6 @@
 package com.example.covidcare;
 
-public class currentOnlineUser {
+public class Prevalent {
     public static User currentOnlineUser;
 
 }

@@ -31,6 +31,7 @@ public class LatLang {
     public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
+
     public String getUid() {
         return Uid;
     }
@@ -38,12 +39,6 @@ public class LatLang {
     public void setUid(String uid) {
         this.Uid = uid;
     }
-
-
-
-
-
-
 
 
 }

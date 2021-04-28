@@ -11,6 +11,7 @@ public class userInput {
         Status = status;
         Volunteer = volunteer;
     }
+
     public String getStatus() {
         return Status;
     }

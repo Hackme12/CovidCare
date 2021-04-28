@@ -12,11 +12,17 @@ import androidx.fragment.app.FragmentContainerView;
 import androidx.appcompat.widget.Toolbar;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -40,6 +46,7 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.SettingsClient;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -53,9 +60,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Locale;
 
 public class dashboard extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -69,9 +79,15 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
     private FirebaseDatabase database;
     private FirebaseUser currentUser;
     private LatLang latLang;
+    boolean checkIfLocationExist = false;
+    int temp= 0;
+    int temp2 = 0;
     private LatLng latLng;
-    ArrayList<LatLng>locationArrayList;
+    ArrayList<LatLng> locationArrayList;
     boolean locationExist = false;
+    boolean checkLessThanSixFitDistance = false;
+    private Distance_Lat_Lang distanceBetwnTwoLocation;
+    String []getCity;
 //    private int designWidth =470;
 //    private int designHeight = 730;
 //    private int dpHeight;
@@ -81,52 +97,36 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
 
     public double latitude, longitude;
     Toolbar toolbar;
-    TextView userName ;
+    TextView userName;
 
     // Declaring Location Object for implementing user current location
 
     final int REQUEST_CODE = 8932;
     FusedLocationProviderClient fusedLocationProviderClient;
     LocationRequest locationRequest;
-    public static final int TEN_MINUTES =  10*1000;
+    public static final int TEN_MINUTES =  15 * 60 * 1000;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
         navigationView = findViewById(R.id.navigation_menu);
         View headerview = navigationView.getHeaderView(0);
         userName = headerview.findViewById(R.id.tv_UserName_drawer);
-        DisplayMetrics displayMetrics = getResources().getDisplayMetrics();
 
-//        dpHeight = displayMetrics.heightPixels;
-//
-//        dpWidth = displayMetrics.widthPixels;
-//        density = displayMetrics.scaledDensity;
 
-        fragmentContainerView = (FragmentContainerView)findViewById(R.id.frame_layout);
 
-//        ViewGroup.LayoutParams fragmentParams = (ViewGroup.MarginLayoutParams) fragmentContainerView.getLayoutParams();
-//        fragmentParams.height = calcHeight(620);
-//
-
+        fragmentContainerView = (FragmentContainerView) findViewById(R.id.frame_layout);
 
         toolbar = findViewById(R.id.myToolbar);
 
-//        ViewGroup.LayoutParams tool = (ViewGroup.LayoutParams) toolbar.getLayoutParams();
-//        tool.height = calcHeight(50);
-//
 
         locationArrayList = new ArrayList<>();
 
         setSupportActionBar(toolbar);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-
-//        ViewGroup.LayoutParams btmNavigation = (ViewGroup.LayoutParams) bottomNavigationView.getLayoutParams();
-//        btmNavigation.height = calcHeight(55);
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigation_menu);
@@ -135,10 +135,20 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         database = FirebaseDatabase.getInstance();
         reference = database.getReference();
         currentUser = auth.getCurrentUser();
-        //userName.setText(currentOnlineUser.currentOnlineUser.getFullName());
 
 
-
+        reference.child("User").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user = snapshot.child(currentUser.getUid()).getValue(User.class);
+                Prevalent.currentOnlineUser = user;
+                userName.setText(Prevalent.currentOnlineUser.getFullName());
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                error.getMessage();
+            }
+        });
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this);
         locationRequest = LocationRequest.create();
@@ -156,32 +166,25 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new fragment_buttom_home()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Google_Map()).commit();
         }
 
     }
-
-    int array[] = new int[3];
-    String array2[] = new String[3];
-
 
 
     Handler mHandler = new Handler();
     Runnable mHandlerTask = new Runnable() {
         @Override
         public void run() {
-            if(ContextCompat.checkSelfPermission(dashboard.this,Manifest.permission.ACCESS_FINE_LOCATION)==PackageManager.PERMISSION_GRANTED){
+            if (ContextCompat.checkSelfPermission(dashboard.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+                //getLocation();
+
                 checkSettingAndGetLocation();
-
-            }
-            else{
+            } else {
                 requestLocationPermission();
-
             }
-
             mHandler.postDelayed(mHandlerTask, TEN_MINUTES);
         }
-
     };
 
 
@@ -190,7 +193,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
 
         @Override
         public void onLocationResult(LocationResult locationResult) {
-            if(locationResult== null){
+            if (locationResult == null) {
                 Toast.makeText(dashboard.this, "Couldn't Found the location! PLease restat ", Toast.LENGTH_SHORT).show();
                 return;
             }
@@ -201,11 +204,13 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                 public void run() {
                     Calendar calendar = Calendar.getInstance();
                     String currentTime = DateFormat.getDateTimeInstance().format(calendar.getTime());
-                    String key = currentUser.getUid()+ currentTime;
-                    for(Location location: locationResult.getLocations()){
-                        //System.out.println(location.getLatitude()+" , "+ location.getLongitude());
+                    String key = currentUser.getUid() + currentTime;
+                    for (Location location : locationResult.getLocations()) {
                         latitude = location.getLatitude();
                         longitude = location.getLongitude();
+
+                        LocationAddress locationAddress= new LocationAddress();
+                        locationAddress.getAddressFromLocation(latitude,longitude,getApplicationContext(),new GeocoderHandler());;
 
 
                         /* Stored the location of user to database if he/she wants to volunteer and tested positive*/
@@ -213,33 +218,84 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                         reference.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                if(snapshot.child("User").child(currentUser.getUid()).exists() && snapshot.child("User").child(currentUser.getUid()).child("Covid Check").exists())
-                                {
-//                                    for(DataSnapshot exposedLocation: snapshot.getChildren()) {
-//                                        latLang = exposedLocation.getValue(LatLang.class);
-//                                        latLng = new LatLng(latLang.getLatitude(), latLang.getLongitude());
-//                                        locationArrayList.add(latLng);
-//                                    }
-//
-//                                    for(int i =0;i<locationArrayList.size();i++){
-//
-//                                        if(locationArrayList.get(i).latitude==latitude && locationArrayList.get(i).longitude==longitude){
-//                                            locationExist= true;
-//                                        }
-//                                    }
-//                                    if(!locationExist){
-                                            userInput userInput = snapshot.child("User").child(currentUser.getUid()).child("Covid Check").getValue(userInput.class);
-                                            if(userInput.getStatus().equals("Positive") && userInput.getVolunteer().equals("Yes")){
-                                                reference.child("Exposed Area").child(key).child("latitude").setValue(latitude);
-                                                reference.child("Exposed Area").child(key).child("longitude").setValue(longitude);
-                                                reference.child("Exposed Area").child(key).child("time").setValue(currentTime);
-                                                reference.child("Exposed Area").child(key).child("Uid").setValue(currentUser.getUid());
-                                        }
+                                if (snapshot.child("User").child(currentUser.getUid()).exists() && snapshot.child("User").child(currentUser.getUid()).child("Covid Check").exists()) {
+                                    userInput userInput = snapshot.child("User").child(currentUser.getUid()).child("Covid Check").getValue(userInput.class);
+                                    if (userInput.getStatus().equals("Positive") && userInput.getVolunteer().equals("Yes")) {
 
+
+                                        reference.child("Exposed Area").addValueEventListener(new ValueEventListener() {
+                                            @Override
+                                            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                for (DataSnapshot exposedArea : snapshot.getChildren()) {
+                                                    latLang = exposedArea.getValue(LatLang.class);
+
+                                                    if (latitude == latLang.getLatitude() && longitude == latLang.getLongitude()) {
+                                                        checkIfLocationExist = true;
+                                                        if(checkIfLocationExist){
+                                                            temp2 =1;
+                                                            System.out.println("YES LOCATION EXIST");
+                                                        }
+
+                                                    } else {
+                                                        checkIfLocationExist = false;
+
+                                                        System.out.println("NO LOCATION EXIST");
+                                                    }
+
+
+                                                    //Check if user current location (latitude,longitude) is near by exposedArea (getLatitude, getLongitude)
+
+                                                    /*******************************************************************************
+
+
+                                                     Push notification if the user is near by exposed area
+                                                     Testing the function of notification by setting the latitude and longitude of current user and assumed latitude and longitude of exposed area
+                                                     Negative latitude represents southern hemisphere and negative longitudes represents western hemisphere
+                                                     *******************************************************************************/
+
+
+                                                    distanceBetwnTwoLocation = new Distance_Lat_Lang(latitude, longitude, latLang.getLatitude(), latLang.getLongitude());
+                                                    double dis = distanceBetwnTwoLocation.distance_Between_LatLong();
+                                                    System.out.println("The distance between two location is: " + dis);
+
+                                                    
+
+                                                    if (dis <= 5.0 && dis != 0.0) {
+                                                        System.out.println("EXPOSED AREA: TRUE");
+                                                        System.out.println("EXPOSED AREA: "+dis);
+                                                        temp =1;
+                                                    } else {
+                                                        System.out.println("EXPOSED AREA: FALSE");
+
+                                                    }
+
+                                                    //checkLessThanSixFitDistance = distanceBetwnTwoLocation.check_if_in_exposed_area();
+                                                    //if(checkLessThanSixFitDistance){
+                                                      //  temp =1;
+                                                    //}
+
+                                                }
+                                                if (temp==1) {
+                                                    callNotification();
+                                                }
+                                                if (temp2 != 1) {
+                                                    reference.child("Exposed Area").child(key).child("latitude").setValue(latitude);
+                                                    reference.child("Exposed Area").child(key).child("longitude").setValue(longitude);
+                                                    reference.child("Exposed Area").child(key).child("time").setValue(currentTime);
+                                                    reference.child("Exposed Area").child(key).child("Uid").setValue(currentUser.getUid());
+                                                }
+
+                                            }
+
+                                            @Override
+                                            public void onCancelled(@NonNull DatabaseError error) {
+                                            }
+                                        });
                                     }
-
-
                                 }
+
+
+                            }
 
 
                             @Override
@@ -249,18 +305,16 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                             }
                         });
 
-                        System.out.println("Latitude: " + latitude +","+ "Longitude: " + longitude);
+                        System.out.println("Latitude: " + latitude + "," + "Longitude: " + longitude);
 
                     }
 
                 }
-            },3000);
+            }, 3000);
 
 
         }
     };
-
-
 
 
     private void requestLocationPermission() {
@@ -286,7 +340,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
             }
         } else {
             //checkSettingAndGetLocation();
-            Toast.makeText(this, "Location is Enabled!!!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Location is enabled.", Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -324,22 +378,17 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
     private void startLocationUpdate() {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            // TODO: Consider calling
-            //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-            //                                          int[] grantResults)
-            // to handle the case where the user grants the permission. See the documentation
-            // for ActivityCompat#requestPermissions for more details.
+
+
             Toast.makeText(this, "Permission Denied. Please allow the location!", Toast.LENGTH_SHORT).show();
         }
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
 
     }
-    private void stopLocationUpdate(){
+
+    private void stopLocationUpdate() {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
     }
-
 
 
     @Override
@@ -353,7 +402,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
     @Override
     protected void onPause() {
 
-       stopLocationUpdate();
+        stopLocationUpdate();
         super.onPause();
     }
 
@@ -367,67 +416,51 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-       if(requestCode == REQUEST_CODE){
-           if(grantResults.length>0 && grantResults[0] ==PackageManager.PERMISSION_GRANTED){
+        if (requestCode == REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-               checkSettingAndGetLocation();
+                checkSettingAndGetLocation();
 
-           }
-           else{
-               if(!ActivityCompat.shouldShowRequestPermissionRationale(this,Manifest.permission.ACCESS_FINE_LOCATION)){
-                   //App denied
-                   new AlertDialog.Builder(this)
-                           .setMessage("Location Services has permanently denied. Please go to your phone setting to enable this permission")
-                           .setPositiveButton("             Go To Setting", new DialogInterface.OnClickListener() {
-                               @Override
-                               public void onClick(DialogInterface dialogInterface, int i) {
-                                   applicationSetting();
-                               }
-                           })
-                   .setNegativeButton("Cancel",null)
-                   .setCancelable(false)
-                   .show()
-                   ;
+            } else {
+                if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+                    //App denied
+                    new AlertDialog.Builder(this)
+                            .setMessage("Location Services has permanently denied. Please go to your phone setting to enable this permission")
+                            .setPositiveButton("             Go To Setting", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    applicationSetting();
+                                }
+                            })
+                            .setNegativeButton("Cancel", null)
+                            .setCancelable(false)
+                            .show()
+                    ;
 
-               }
-               else{
-                   Toast.makeText(this, "Location permission denied!", Toast.LENGTH_SHORT).show();
-               }
-           }
-
-
-
-       }
-
+                } else {
+                    Toast.makeText(this, "Location permission denied!", Toast.LENGTH_SHORT).show();
+                }
+            }
+        }
     }
 
-    private void applicationSetting(){
+
+    private void applicationSetting() {
         Intent intent = new Intent();
         intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-        Uri uri = Uri.fromParts("package",getCallingActivity().getPackageName(), null);
+        Uri uri = Uri.fromParts("package", getCallingActivity().getPackageName(), null);
         intent.setData(uri);
         startActivity(intent);
-
     }
 
     @Override
-    public void onBackPressed(){
-        if(drawerLayout.isDrawerOpen(GravityCompat.START)){
+    public void onBackPressed() {
+        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new bottom_home()).commit();
         }
-        else{
-//            auth.signOut();
-//            Intent intent = new Intent(dashboard.this,Login.class);
-//            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
-//                    Intent.FLAG_ACTIVITY_CLEAR_TASK |
-//                    Intent.FLAG_ACTIVITY_NEW_TASK);
-//            startActivity(intent);
-
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new fragment_buttom_home()).commit();
-
-
-        }
-
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -435,81 +468,119 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             Fragment selectedFragment = null;
 
-            switch (item.getItemId()){
+            switch (item.getItemId()) {
 
                 case R.id.bottom_menu_home:
-                    selectedFragment = new fragment_buttom_home();
+                    selectedFragment = new bottom_home();
                     break;
                 case R.id.bottom_menu_map:
-                    selectedFragment = new fragment_buttom_map();
+                    selectedFragment = new Google_Map();
                     break;
                 case R.id.bottom_menu_appointment:
-                    selectedFragment = new fragment_buttom_appointment();
+                    selectedFragment = new Appointment();
                     break;
                 case R.id.bottom_menu_covid_status:
-                    selectedFragment = new fragment_buttom_status();
+                    selectedFragment = new Status();
                     break;
             }
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,selectedFragment).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, selectedFragment).commit();
             return true;
         }
     };
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_home:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new fragment_buttom_home()).commit();
+
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new bottom_home()).commit();
                 //Toast.makeText(this, "Hello there", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.menu_profile:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new fragment_drawer_profile()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Profile()).commit();
                 //Toast.makeText(this, "Hello there", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.menu_message:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new fragment_drawer_message()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Message()).commit();
                 //Toast.makeText(this, "Hello there", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.menu_news:
                 Intent intent1 = new Intent(dashboard.this, News.class);
                 startActivity(intent1);
-               // getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new fragment_drawer_news()).commit();
+                // getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new fragment_drawer_news()).commit();
                 break;
-
             case R.id.menu_vaccine_info:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new fragment_drawer_vaccine_review()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Vaccine_Review()).commit();
                 break;
-
             case R.id.menu_help:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new fragment_drawer_help()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Help()).commit();
                 //Toast.makeText(this, "Hello there", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.menu_about:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new fragment_drawer_about()).commit();
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new About()).commit();
                 break;
             case R.id.menu_logout:
-               auth.signOut();
-               Intent intent = new Intent( dashboard.this, Login.class);
+                auth.signOut();
+                Intent intent = new Intent(dashboard.this, Login.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP |
                         Intent.FLAG_ACTIVITY_CLEAR_TASK |
                         Intent.FLAG_ACTIVITY_NEW_TASK);
-               startActivity(intent);
+                startActivity(intent);
 
                 break;
-
         }
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
-//
-//    public int calcHeight(float value){
-//        return (int) (dpHeight *(value/designHeight));
-//    }
-//    public int calcWidth(float value){
-//        return (int) (dpWidth *(value/designWidth));
-//    }
-//
 
 
+    public void callNotification() {
+        AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
+        Intent notificationIntent = new Intent(this, Notification.class);
+        PendingIntent broadcast = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        Calendar cal = Calendar.getInstance();
+        alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
+    }
+
+
+
+    private class GeocoderHandler extends Handler {
+        @Override
+        public void handleMessage(android.os.Message message) {
+            String locationAddress;
+            switch (message.what) {
+                case 1:
+                    Bundle bundle = message.getData();
+                    locationAddress = bundle.getString("address");
+                    break;
+                default:
+                    locationAddress = null;
+            }
+
+            getCity = locationAddress.split("Address:");
+            System.out.println("CITY NAME IS :"+ getCity[1]);
+
+            //System.out.println("MY ADDRESS IS "+ locationAddress);
+        }
+    }
+
+    public String getCityName(){
+
+
+        String temp_array[] = getCity[1].trim().split(" ");
+
+        if(temp_array.length == 4){
+
+            return temp_array[0];
+        }
+        else if(temp_array.length == 5){
+
+            return temp_array[0]+" " +temp_array[1];
+        }
+        else{
+            return "Lubbock";
+        }
+    }
 
 
 }
