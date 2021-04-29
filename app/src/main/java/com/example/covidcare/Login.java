@@ -40,8 +40,6 @@ public class Login extends AppCompatActivity {
     ProgressDialog progressDialog;
     FirebaseAuth authentication;
     FirebaseUser firebaseUser;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -128,18 +126,13 @@ public class Login extends AppCompatActivity {
         builder.setPositiveButton("SUBMIT                                       ", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
-
                 String Email = email.getText().toString().trim();
-
-
-
-
                 if (TextUtils.isEmpty(Email)){
                     Toast.makeText(Login.this, "Please enter your email.", Toast.LENGTH_SHORT).show();
                 }
-
                 else
                 {
+
                    authentication.sendPasswordResetEmail(Email).addOnCompleteListener(new OnCompleteListener<Void>() {
                        @Override
                        public void onComplete(@NonNull Task<Void> task) {
@@ -147,36 +140,30 @@ public class Login extends AppCompatActivity {
                            {
                                Toast.makeText(Login.this, "Please check your email to reset the password", Toast.LENGTH_SHORT).show();
                            }
-
-
                        }
                    });
                 }
 
             }
         });
-
-
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-
-
     }
-
 
 
     private void checkValid(String username, String password) {
 
+        // Call signInWithAndPassword(String, String) method which check if the user login information is valid and correct
         authentication.signInWithEmailAndPassword(username,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-
-
+                // task is successful if user login information is valid
                 if(task.isSuccessful()){
                     FirebaseUser User = FirebaseAuth.getInstance().getCurrentUser();
-
+                    //check if user email is verified by user
                     if(User.isEmailVerified()){
                             progressDialog.dismiss();
+                            // user will  be redirect to home page if login information
                             Intent intent = new Intent(Login.this, dashboard.class);
                             startActivity(intent);
                     }

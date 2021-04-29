@@ -105,7 +105,7 @@ public class Register extends AppCompatActivity {
         auth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                // if the email doesn't exist in database and there is no any other problem then task will be sucesfull
+                // if the email doesn't exist in database and there is no any other problem then task will be successful
                 if (task.isSuccessful()) {
                     User user = new User(fullName, email, phoneNumber, dob, sex);
                     // Verify email using sendEmailVerification() of Firebase Authentication library
@@ -119,9 +119,10 @@ public class Register extends AppCompatActivity {
                                             @Override
                                             public void onComplete(@NonNull Task<Void> task) {
                                                 if (task.isSuccessful()) {
-                                                    //if task is successful user will be refirect to  login page
+                                                    //if task is successful user will be redirect to  login page
                                                     LoadingBar.dismiss();
-                                                    Toast.makeText(Register.this, "Successfully Account Created! Please verify your email to login.", Toast.LENGTH_SHORT).show();
+                                                    Toast.makeText(Register.this, "Successfully Account Created! Please verify your email to login.",
+                                                            Toast.LENGTH_SHORT).show();
                                                     Intent intent = new Intent(Register.this, Login.class);
                                                     startActivity(intent);
                                                 } else {

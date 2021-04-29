@@ -251,7 +251,6 @@ public class bottom_home extends Fragment {
 
             dashboard dash = (dashboard)getActivity();
             city = dash.getCityName();
-            System.out.println("cccccccc"+ city + " dash: "+ dash.getCityName());
             city = "Lubbock";
             //System.out.println("cityyyy name:"+ city);
 

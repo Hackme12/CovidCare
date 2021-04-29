@@ -113,10 +113,12 @@ public class Status extends Fragment {
             public void onClick(View view) {
                 if (status_check && volunteer_check) {
 
+                    /*
+                        * Update user Covid status such as tested positive or tested negative and either yes or no to volunteer
+                     */
                     reference.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-
                             if (snapshot.child("User").child(currentUser.getUid()).exists()) {
                                 reference.child("User").child(currentUser.getUid()).child("Covid Check").child("Status").setValue("Positive");
                                 reference.child("User").child(currentUser.getUid()).child("Covid Check").child("Volunteer").setValue("Yes");
@@ -124,7 +126,6 @@ public class Status extends Fragment {
                                 Toast.makeText(getContext(), "User not found in database!!", Toast.LENGTH_SHORT).show();
                             }
                         }
-
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
                             Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
@@ -173,15 +174,12 @@ public class Status extends Fragment {
                         }
                     });
 
-
                     Query query = refExposedArea.orderByChild("Uid").equalTo(currentUser.getUid());
                     ValueEventListener valueEventListener = new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                                String hotelName = ds.getKey();
-                                Log.d(TAG, hotelName);
-                                System.out.println(hotelName);
+                                String exposedArea = ds.getKey();
                                 refExposedArea.removeValue();
 
                             }

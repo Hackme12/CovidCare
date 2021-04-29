@@ -84,15 +84,9 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
     int temp2 = 0;
     private LatLng latLng;
     ArrayList<LatLng> locationArrayList;
-    boolean locationExist = false;
-    boolean checkLessThanSixFitDistance = false;
     private Distance_Lat_Lang distanceBetwnTwoLocation;
     String []getCity;
-//    private int designWidth =470;
-//    private int designHeight = 730;
-//    private int dpHeight;
-//    private int dpWidth;
-//    private float density;
+
 
 
     public double latitude, longitude;
@@ -104,7 +98,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
     final int REQUEST_CODE = 8932;
     FusedLocationProviderClient fusedLocationProviderClient;
     LocationRequest locationRequest;
-    public static final int TEN_MINUTES =  15 * 60 * 1000;
+    public static final int FIVE_MINUTES =  5 * 60 * 1000;
 
 
     @Override
@@ -115,16 +109,10 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         navigationView = findViewById(R.id.navigation_menu);
         View headerview = navigationView.getHeaderView(0);
         userName = headerview.findViewById(R.id.tv_UserName_drawer);
-
-
-
         fragmentContainerView = (FragmentContainerView) findViewById(R.id.frame_layout);
-
         toolbar = findViewById(R.id.myToolbar);
 
-
         locationArrayList = new ArrayList<>();
-
         setSupportActionBar(toolbar);
         bottomNavigationView = findViewById(R.id.bottom_navigation);
 
@@ -155,8 +143,6 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
 
         locationRequest.setFastestInterval(2000);
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
-
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
@@ -170,134 +156,110 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         }
 
     }
-
+    /*
+         Handler is used to run the program to get the current location in every 15 minutes even if
+         the app is on background
+         Need to check location permission of the user device
+     */
 
     Handler mHandler = new Handler();
     Runnable mHandlerTask = new Runnable() {
         @Override
         public void run() {
-            if (ContextCompat.checkSelfPermission(dashboard.this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
-                //getLocation();
+            if (ContextCompat.checkSelfPermission(dashboard.this, Manifest.permission.
+                    ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
 
+                //Method to check the location permission of the device and get current location
                 checkSettingAndGetLocation();
             } else {
+                // Ask user to enable location if
                 requestLocationPermission();
             }
-            mHandler.postDelayed(mHandlerTask, TEN_MINUTES);
+            // run this handler on every 5 minutes
+            mHandler.postDelayed(mHandlerTask, FIVE_MINUTES);
         }
     };
 
 
-
     public LocationCallback locationCallback = new LocationCallback() {
-
         @Override
         public void onLocationResult(LocationResult locationResult) {
             if (locationResult == null) {
                 Toast.makeText(dashboard.this, "Couldn't Found the location! PLease restat ", Toast.LENGTH_SHORT).show();
-                return;
-            }
-
-
+                return;}
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
+                    // Get the current local time  and add it with userID to create unique ID for the database
                     Calendar calendar = Calendar.getInstance();
                     String currentTime = DateFormat.getDateTimeInstance().format(calendar.getTime());
                     String key = currentUser.getUid() + currentTime;
+                    // Generate location of the user using Location method from Google Map API
                     for (Location location : locationResult.getLocations()) {
+                        // latitude and longitude of current user location
                         latitude = location.getLatitude();
                         longitude = location.getLongitude();
-
+                        // LocationAddress give the zip code and city name of the provided latitude and longtitude
                         LocationAddress locationAddress= new LocationAddress();
                         locationAddress.getAddressFromLocation(latitude,longitude,getApplicationContext(),new GeocoderHandler());;
-
-
                         /* Stored the location of user to database if he/she wants to volunteer and tested positive*/
-
                         reference.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                // check if user has entered covid status
                                 if (snapshot.child("User").child(currentUser.getUid()).exists() && snapshot.child("User").child(currentUser.getUid()).child("Covid Check").exists()) {
+                                    //retrieving all the user information from database
                                     userInput userInput = snapshot.child("User").child(currentUser.getUid()).child("Covid Check").getValue(userInput.class);
+                                    //if user has entered tested positive and yes to sharing location then data will be uploaded to our database
                                     if (userInput.getStatus().equals("Positive") && userInput.getVolunteer().equals("Yes")) {
-
-
+                                        // reference object  is the reference of our database
                                         reference.child("Exposed Area").addValueEventListener(new ValueEventListener() {
                                             @Override
                                             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                                                /*Get access to all the exposed area that was stored into database and check if that location already listed in our database
+                                                 NO need to update if the current location of user is already on our the database
+                                                 */
                                                 for (DataSnapshot exposedArea : snapshot.getChildren()) {
                                                     latLang = exposedArea.getValue(LatLang.class);
-
                                                     if (latitude == latLang.getLatitude() && longitude == latLang.getLongitude()) {
                                                         checkIfLocationExist = true;
                                                         if(checkIfLocationExist){
                                                             temp2 =1;
-                                                            System.out.println("YES LOCATION EXIST");
                                                         }
-
                                                     } else {
                                                         checkIfLocationExist = false;
-
-                                                        System.out.println("NO LOCATION EXIST");
                                                     }
-
-
-                                                    //Check if user current location (latitude,longitude) is near by exposedArea (getLatitude, getLongitude)
-
-                                                    /*******************************************************************************
-
-
+                                                    /*Check if user current location (latitude,longitude) is near by exposedArea (getLatitude, getLongitude)
                                                      Push notification if the user is near by exposed area
                                                      Testing the function of notification by setting the latitude and longitude of current user and assumed latitude and longitude of exposed area
                                                      Negative latitude represents southern hemisphere and negative longitudes represents western hemisphere
-                                                     *******************************************************************************/
-
-
+                                                     */
                                                     distanceBetwnTwoLocation = new Distance_Lat_Lang(latitude, longitude, latLang.getLatitude(), latLang.getLongitude());
                                                     double dis = distanceBetwnTwoLocation.distance_Between_LatLong();
-                                                    System.out.println("The distance between two location is: " + dis);
-
-                                                    
-
                                                     if (dis <= 5.0 && dis != 0.0) {
-                                                        System.out.println("EXPOSED AREA: TRUE");
-                                                        System.out.println("EXPOSED AREA: "+dis);
                                                         temp =1;
-                                                    } else {
-                                                        System.out.println("EXPOSED AREA: FALSE");
-
                                                     }
-
-                                                    //checkLessThanSixFitDistance = distanceBetwnTwoLocation.check_if_in_exposed_area();
-                                                    //if(checkLessThanSixFitDistance){
-                                                      //  temp =1;
-                                                    //}
-
                                                 }
+                                                // push notification if user is nearby exposed area by 5 meter
                                                 if (temp==1) {
                                                     callNotification();
                                                 }
+                                                // temp2 is not equal to 1 which means current location of user is not in the database
+                                                // then update the location into database
                                                 if (temp2 != 1) {
                                                     reference.child("Exposed Area").child(key).child("latitude").setValue(latitude);
                                                     reference.child("Exposed Area").child(key).child("longitude").setValue(longitude);
                                                     reference.child("Exposed Area").child(key).child("time").setValue(currentTime);
                                                     reference.child("Exposed Area").child(key).child("Uid").setValue(currentUser.getUid());
                                                 }
-
                                             }
-
                                             @Override
                                             public void onCancelled(@NonNull DatabaseError error) {
                                             }
                                         });
                                     }
                                 }
-
-
                             }
-
-
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
                                 Toast.makeText(dashboard.this, error.getMessage(), Toast.LENGTH_SHORT).show();
@@ -375,17 +337,17 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
 
     }
 
+    //Looper.getMainLooper
     private void startLocationUpdate() {
 
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-
             Toast.makeText(this, "Permission Denied. Please allow the location!", Toast.LENGTH_SHORT).show();
         }
         fusedLocationProviderClient.requestLocationUpdates(locationRequest, locationCallback, Looper.getMainLooper());
 
     }
 
+    // stop feeding location
     private void stopLocationUpdate() {
         fusedLocationProviderClient.removeLocationUpdates(locationCallback);
     }
@@ -406,7 +368,6 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         super.onPause();
     }
 
-
     @Override
     protected void onDestroy() {
 
@@ -414,13 +375,16 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
 
     }
 
+    /*
+        Once user deny the location permission, then system will not automatically change the status of location permission
+        This method will be called when user denied the permission of location and
+        it will redirect to the devices setting page where user can change the location permission
+     */
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CODE) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-
                 checkSettingAndGetLocation();
-
             } else {
                 if (!ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
                     //App denied
@@ -444,7 +408,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         }
     }
 
-
+// applicationSetting redirect user to devices setting page where he/she can change the location permission from the device
     private void applicationSetting() {
         Intent intent = new Intent();
         intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
@@ -462,7 +426,6 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
             getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new bottom_home()).commit();
         }
     }
-
     private BottomNavigationView.OnNavigationItemSelectedListener navigationItemSelectedListener = new BottomNavigationView.OnNavigationItemSelectedListener() {
         @Override
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
@@ -476,14 +439,18 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                 case R.id.bottom_menu_map:
                     selectedFragment = new Google_Map();
                     break;
-                case R.id.bottom_menu_appointment:
-                    selectedFragment = new Appointment();
+                case R.id.bottom_menu_news:
+                    Intent intent1 = new Intent(getBaseContext(), News.class);
+                    startActivity(intent1);
                     break;
                 case R.id.bottom_menu_covid_status:
                     selectedFragment = new Status();
                     break;
             }
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, selectedFragment).commit();
+            if(selectedFragment!=null){
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, selectedFragment).commit();
+            }
+
             return true;
         }
     };
@@ -492,7 +459,6 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_home:
-
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new bottom_home()).commit();
                 //Toast.makeText(this, "Hello there", Toast.LENGTH_SHORT).show();
                 break;
@@ -500,21 +466,13 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Profile()).commit();
                 //Toast.makeText(this, "Hello there", Toast.LENGTH_SHORT).show();
                 break;
-            case R.id.menu_message:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Message()).commit();
-                //Toast.makeText(this, "Hello there", Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.menu_news:
-                Intent intent1 = new Intent(dashboard.this, News.class);
-                startActivity(intent1);
+            case R.id.menu_Appointment:
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Appointment()).commit();
+
                 // getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout,new fragment_drawer_news()).commit();
                 break;
             case R.id.menu_vaccine_info:
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Vaccine_Review()).commit();
-                break;
-            case R.id.menu_help:
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Help()).commit();
-                //Toast.makeText(this, "Hello there", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.menu_about:
                 getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new About()).commit();
@@ -556,7 +514,6 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                 default:
                     locationAddress = null;
             }
-
             getCity = locationAddress.split("Address:");
             System.out.println("CITY NAME IS :"+ getCity[1]);
 
@@ -565,10 +522,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
     }
 
     public String getCityName(){
-
-
         String temp_array[] = getCity[1].trim().split(" ");
-
         if(temp_array.length == 4){
 
             return temp_array[0];

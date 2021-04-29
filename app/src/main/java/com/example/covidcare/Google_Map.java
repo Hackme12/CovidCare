@@ -61,7 +61,6 @@ public class Google_Map extends Fragment implements OnMapReadyCallback {
     double latitude, longitude;
     private FusedLocationProviderClient fusedLocationProviderClient;
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -70,9 +69,7 @@ public class Google_Map extends Fragment implements OnMapReadyCallback {
 
         mapFragment = (SupportMapFragment) getChildFragmentManager()
                 .findFragmentById(R.id.google_map);
-
         mapFragment.getMapAsync(this);
-
         database = FirebaseDatabase.getInstance();
         reference = database.getReference("Exposed Area");
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(getContext());
@@ -89,19 +86,23 @@ public class Google_Map extends Fragment implements OnMapReadyCallback {
             Toast.makeText(getContext(), "Please Enable the location first", Toast.LENGTH_SHORT).show();
         }
 
-
+        //Display user current location in MAP when user open app at first
         fusedLocationProviderClient.getLastLocation().addOnSuccessListener(new OnSuccessListener<Location>() {
             @Override
+            //Call object of Location to get the latitude and longitude of user
             public void onSuccess(Location location) {
                 if(location!=null){
                    latitude = location.getLatitude();
                    longitude = location.getLongitude();
-                    //System.out.println(latitude +"  dadada "+longitude);
                 }
+                /*
+                * Type of userCurrentLocation is Latlng
+                * Pass user current latitude and longitude to userCurrentLocation
+                * mMap is object of GoogleMap which is used to display the current location by using marker
+                 */
                 userCurrentLocation = new LatLng(latitude,longitude);
                 mMap.addMarker(new MarkerOptions().position(userCurrentLocation)
                         .title("Current Location"));
-
                 CameraPosition cameraPosition = new CameraPosition.Builder()
                         .target(userCurrentLocation)      // Sets the center of the map to Mountain View
                         .zoom(16)                   // Sets the zoom
@@ -109,34 +110,27 @@ public class Google_Map extends Fragment implements OnMapReadyCallback {
                         .tilt(30)                   // Sets the tilt of the camera to 30 degrees
                         .build();                   // Creates a CameraPosition from the builder
                 mMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
-
             }
         });
-
-
-
-
-
-
+        //Retrieve all the exposed areas listed on our database
         reference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //check if there is any exposed area
                 if (snapshot.hasChildren()) {
                    int i = 0;
+                   // Get latitude and longitude from all the exposed areas listed in database
                     for (DataSnapshot exposedLocation : snapshot.getChildren()) {
                         latLang = exposedLocation.getValue(LatLang.class);
                         latLng = new LatLng(latLang.getLatitude(), latLang.getLongitude());
+                        // Add latitude and longitude to locationArrayList so that mMap could get access and plot those latitude and longitude into map
                         locationArrayList.add(latLng);
-                        //System.out.println("+++++++"+locationArrayList.get(i));
-                        //latLngArrayList.add(latLng);
-
                         mMap.addMarker(new MarkerOptions()
                                 .position(locationArrayList.get(i))
                                 .icon(BitmapFromVector(getContext(),R.drawable.covidsign))
                                 .title(locationArrayList.get(i).latitude +"  ,  "+ locationArrayList.get(i).longitude)
                         );
                         i++;
-                        System.out.println("SIZE OF ARRAY: "+ locationArrayList.size());
                     }
                 }
             }
@@ -147,9 +141,6 @@ public class Google_Map extends Fragment implements OnMapReadyCallback {
         return view;
     }
 
-
-
-
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -158,11 +149,7 @@ public class Google_Map extends Fragment implements OnMapReadyCallback {
         mMap.animateCamera(CameraUpdateFactory.zoomTo(10), 2000, null);
         mMap.getUiSettings().setZoomControlsEnabled(true);
         mMap.getUiSettings().setMyLocationButtonEnabled(true);
-
-
     }
-
-
 
     private BitmapDescriptor BitmapFromVector(Context context, int vectorResId) {
         // below line is use to generate a drawable.

@@ -83,13 +83,9 @@ public class News extends AppCompatActivity {
 
     private class NewsApi extends AsyncTask<Void, Void, Void> {
 
-
         @Override
         protected Void doInBackground(Void... voids) {
-
-
             NewsApiClient newsApiClient = new NewsApiClient(API_KEY);
-
             newsApiClient.getEverything(
                     new EverythingRequest.Builder()
                             .q("Covid")

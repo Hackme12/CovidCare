@@ -21,25 +21,15 @@
             android:icon="@drawable/icon"
             />
         <item
-            android:title="Message"
-            android:id="@+id/menu_message"
-            android:icon="@drawable/icon_message"
-            ></item>
-        <item
-            android:title="News"
-            android:id="@+id/menu_news"
-            android:icon="@drawable/icon_news"
+            android:title="Appointment"
+            android:id="@+id/menu_Appointment"
+            android:icon="@drawable/icon_appointment"
             ></item>
 
         <item
             android:title="Vaccine Review"
             android:id="@+id/menu_vaccine_info"
             android:icon="@drawable/icon_review"
-            ></item>
-        <item
-            android:title="Help"
-            android:id="@+id/menu_help"
-            android:icon="@drawable/icon_help"
             ></item>
         <item
             android:title="About"

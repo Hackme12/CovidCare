@@ -66,7 +66,6 @@ public class Profile extends Fragment {
                 Fname.setText(user.getFullName());
                 Email.setText(user.getEmail());
                 PhoneNumber.setText(user.getPhoneNumber());
-                Emer_PhoneNumber.setText(user.getEmerPhone());
                 Dob.setText(user.getDob());
 
             }
@@ -81,13 +80,15 @@ public class Profile extends Fragment {
             @Override
             public void onClick(View view) {
 
+                /*
+                * First check if user has changed information into our app
+                * Update user information to database only if it's changed
+                */
                 if (isNameChanged() || isEmailChanged() || isPhoneChanged() || isEmerPhoneChanged() || isDobChanged()) {
                     Toast.makeText(getContext(), "Information updated!", Toast.LENGTH_SHORT).show();
                     //getChildFragmentManager().beginTransaction().replace(R.id.frame_layout,new fragment_buttom_home()).commit();
                     Intent intent = new Intent(getContext(), dashboard.class);
                     startActivity(intent);
-
-
                 } else {
                     Toast.makeText(getContext(), "No new information.", Toast.LENGTH_SHORT).show();
                 }
