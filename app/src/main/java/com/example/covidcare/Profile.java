@@ -26,7 +26,7 @@ public class Profile extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
 
-    private EditText Fname, Email, PhoneNumber, Emer_PhoneNumber, Dob;
+    private EditText Fname, Email, PhoneNumber,  Dob;
     private Button Submitbtn;
 
     FirebaseAuth firebaseAuth;
@@ -46,7 +46,7 @@ public class Profile extends Fragment {
         Fname = view.findViewById(R.id.fNameEditText_update);
         Email = view.findViewById(R.id.emailEditText_update);
         PhoneNumber = view.findViewById(R.id.phoneEditText_update);
-        Emer_PhoneNumber = view.findViewById(R.id.phone_emergencyEdittext_update);
+
         Dob = view.findViewById(R.id.Dob_editText_update);
         // user = new User();
         Submitbtn = view.findViewById(R.id.SubmitBtn);
@@ -56,25 +56,7 @@ public class Profile extends Fragment {
         current_user = FirebaseAuth.getInstance().getCurrentUser();
         reference = database.getReference("User");
 
-
-        reference.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                user = snapshot.child(current_user.getUid()).getValue(User.class);
-
-                Fname.setText(user.getFullName());
-                Email.setText(user.getEmail());
-                PhoneNumber.setText(user.getPhoneNumber());
-                Dob.setText(user.getDob());
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {
-                error.getMessage();
-            }
-        });
+        viewProfile();
 
         Submitbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,14 +66,8 @@ public class Profile extends Fragment {
                 * First check if user has changed information into our app
                 * Update user information to database only if it's changed
                 */
-                if (isNameChanged() || isEmailChanged() || isPhoneChanged() || isEmerPhoneChanged() || isDobChanged()) {
-                    Toast.makeText(getContext(), "Information updated!", Toast.LENGTH_SHORT).show();
-                    //getChildFragmentManager().beginTransaction().replace(R.id.frame_layout,new fragment_buttom_home()).commit();
-                    Intent intent = new Intent(getContext(), dashboard.class);
-                    startActivity(intent);
-                } else {
-                    Toast.makeText(getContext(), "No new information.", Toast.LENGTH_SHORT).show();
-                }
+                updateProfile();
+
 
 
             }
@@ -100,6 +76,7 @@ public class Profile extends Fragment {
 
         return view;
     }
+
 
     public boolean isNameChanged() {
         if (Fname != (Fname.getEditableText())) {
@@ -127,14 +104,7 @@ public class Profile extends Fragment {
         return false;
     }
 
-    public boolean isEmerPhoneChanged() {
-        if (Emer_PhoneNumber != (Emer_PhoneNumber.getEditableText())) {
-            reference.child(current_user.getUid()).child("emerPhone").setValue(Emer_PhoneNumber.getText().toString());
-            return true;
-        }
-        return false;
 
-    }
 
     public boolean isDobChanged() {
         if (Dob != (Dob.getEditableText())) {
@@ -144,6 +114,41 @@ public class Profile extends Fragment {
         return false;
 
     }
+
+    public void updateProfile(){
+        if (isNameChanged() || isEmailChanged() || isPhoneChanged() || isDobChanged()) {
+            Toast.makeText(getContext(), "Information updated!", Toast.LENGTH_SHORT).show();
+            //getChildFragmentManager().beginTransaction().replace(R.id.frame_layout,new fragment_buttom_home()).commit();
+            Intent intent = new Intent(getContext(), dashboard.class);
+            startActivity(intent);
+        } else {
+            Toast.makeText(getContext(), "No new information.", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    public void viewProfile(){
+        reference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                user = snapshot.child(current_user.getUid()).getValue(User.class);
+
+                Fname.setText(user.getFullName());
+                Email.setText(user.getEmail());
+                PhoneNumber.setText(user.getPhoneNumber());
+                Dob.setText(user.getDob());
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                error.getMessage();
+            }
+        });
+
+    }
+
 
 
 }

@@ -76,10 +76,11 @@
         <Button
             android:id="@+id/loginBtn"
             android:layout_width="160dp"
+
             android:layout_gravity="center"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:background="@drawable/box_layout"
+            android:background="@drawable/layout_register_box"
             android:text="Submit"
             android:textColor="@color/black"
             android:textSize="20dp" />

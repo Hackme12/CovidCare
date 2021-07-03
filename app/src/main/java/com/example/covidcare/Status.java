@@ -111,109 +111,111 @@ public class Status extends Fragment {
         btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (status_check && volunteer_check) {
-
-                    /*
-                        * Update user Covid status such as tested positive or tested negative and either yes or no to volunteer
-                     */
-                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            if (snapshot.child("User").child(currentUser.getUid()).exists()) {
-                                reference.child("User").child(currentUser.getUid()).child("Covid Check").child("Status").setValue("Positive");
-                                reference.child("User").child(currentUser.getUid()).child("Covid Check").child("Volunteer").setValue("Yes");
-                            } else {
-                                Toast.makeText(getContext(), "User not found in database!!", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    getFragmentManager().beginTransaction().replace(R.id.frame_layout, new Status_Next()).commit();
-                } else if (status_check && !volunteer_check) {
-
-                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                            if (snapshot.child("User").child(currentUser.getUid()).exists()) {
-                                reference.child("User").child(currentUser.getUid()).child("Covid Check").child("Status").setValue("Positive");
-                                reference.child("User").child(currentUser.getUid()).child("Covid Check").child("Volunteer").setValue("No");
-                            } else {
-                                Toast.makeText(getContext(), "User not found in database!!", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                    getFragmentManager().beginTransaction().replace(R.id.frame_layout, new Status_Next_No()).commit();
-                } else if (!status_check && !volunteer_check) {
-                    reference.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-                            if (snapshot.child("User").child(currentUser.getUid()).exists()) {
-                                reference.child("User").child(currentUser.getUid()).child("Covid Check").child("Status").setValue("Negative");
-                                reference.child("User").child(currentUser.getUid()).child("Covid Check").child("Volunteer").setValue("No");
-
-
-                            } else {
-                                Toast.makeText(getContext(), "User not found in database!!", Toast.LENGTH_SHORT).show();
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-                            Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
-                        }
-                    });
-
-                    Query query = refExposedArea.orderByChild("Uid").equalTo(currentUser.getUid());
-                    ValueEventListener valueEventListener = new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                                String exposedArea = ds.getKey();
-                                refExposedArea.removeValue();
-
-                            }
-                        }
-
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
-                            Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
-                        }
-                    };
-                    query.addListenerForSingleValueEvent(valueEventListener);
-
-                    new AlertDialog.Builder(getContext())
-                            .setMessage("Thank you for your information. Please stay safe and healthy!!")
-                            .setPositiveButton("               OK", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialogInterface, int i) {
-                                    Intent intent = new Intent(getContext(), dashboard.class);
-                                    startActivity(intent);
-                                }
-                            })
-                            .setNegativeButton("Cancel", null)
-                            .setCancelable(false)
-                            .show()
-                    ;
-
-
-                }
-
-
+                updateUserInputIntoDatabase();
             }
         });
 
         return view;
+    }
+
+    public void updateUserInputIntoDatabase(){
+        if (status_check && volunteer_check) {
+
+            /*
+             * Update user Covid status such as tested positive or tested negative and either yes or no to volunteer
+             */
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    if (snapshot.child("User").child(currentUser.getUid()).exists()) {
+                        reference.child("User").child(currentUser.getUid()).child("Covid Check").child("Status").setValue("Positive");
+                        reference.child("User").child(currentUser.getUid()).child("Covid Check").child("Volunteer").setValue("Yes");
+                    } else {
+                        Toast.makeText(getContext(), "User not found in database!!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            getFragmentManager().beginTransaction().replace(R.id.frame_layout, new Status_Next()).commit();
+        } else if (status_check && !volunteer_check) {
+
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                    if (snapshot.child("User").child(currentUser.getUid()).exists()) {
+                        reference.child("User").child(currentUser.getUid()).child("Covid Check").child("Status").setValue("Positive");
+                        reference.child("User").child(currentUser.getUid()).child("Covid Check").child("Volunteer").setValue("No");
+                    } else {
+                        Toast.makeText(getContext(), "User not found in database!!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+            getFragmentManager().beginTransaction().replace(R.id.frame_layout, new Status_Next_No()).commit();
+        } else if (!status_check && !volunteer_check) {
+            reference.addListenerForSingleValueEvent(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                    if (snapshot.child("User").child(currentUser.getUid()).exists()) {
+                        reference.child("User").child(currentUser.getUid()).child("Covid Check").child("Status").setValue("Negative");
+                        reference.child("User").child(currentUser.getUid()).child("Covid Check").child("Volunteer").setValue("No");
+
+
+                    } else {
+                        Toast.makeText(getContext(), "User not found in database!!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
+                    Toast.makeText(getContext(), error.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+
+            Query query = refExposedArea.orderByChild("Uid").equalTo(currentUser.getUid());
+            ValueEventListener valueEventListener = new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                        String exposedArea = ds.getKey();
+                        refExposedArea.removeValue();
+
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+                    Log.d(TAG, databaseError.getMessage()); //Don't ignore errors!
+                }
+            };
+            query.addListenerForSingleValueEvent(valueEventListener);
+
+            new AlertDialog.Builder(getContext())
+                    .setMessage("Thank you for your information. Please stay safe and healthy!!")
+                    .setPositiveButton("               OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            Intent intent = new Intent(getContext(), dashboard.class);
+                            startActivity(intent);
+                        }
+                    })
+                    .setNegativeButton("Cancel", null)
+                    .setCancelable(false)
+                    .show()
+            ;
+        }
+
+
     }
 
 

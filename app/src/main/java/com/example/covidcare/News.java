@@ -65,9 +65,8 @@ public class News extends AppCompatActivity {
                 linearLayoutManager.getOrientation());
         recyclerView.addItemDecoration(dividerItemDecoration);
 
-
         progressDialog.setTitle("               Connecting...");
-        progressDialog.setCanceledOnTouchOutside(false);
+        progressDialog.setCanceledOnTouchOutside(true);
         progressDialog.show();
         NewsApi newsApi = new NewsApi();
         newsApi.execute();

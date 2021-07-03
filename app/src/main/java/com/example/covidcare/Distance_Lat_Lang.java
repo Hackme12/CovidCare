@@ -57,7 +57,8 @@ public class Distance_Lat_Lang {
         this.longitude_2 = Math.toRadians(this.longitude_2);
 
         double earthRadius = 6371.01 * 1000; //meters
-        return earthRadius * Math.acos(Math.sin(latitude_1) * Math.sin(latitude_2) + Math.cos(latitude_1) * Math.cos(latitude_2) * Math.cos(longitude_1 - longitude_2));
+        return earthRadius * Math.acos(Math.sin(latitude_1) * Math.sin(latitude_2)
+                 + Math.cos(latitude_1) * Math.cos(latitude_2) * Math.cos(longitude_1 - longitude_2));
     }
 
 

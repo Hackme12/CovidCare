@@ -84,7 +84,6 @@ public class Vaccine_Review extends Fragment {
                     loadingBar.setCanceledOnTouchOutside(false);
                     loadingBar.show();
 
-
                     FragmentTransaction fragmentTransaction = getActivity().getSupportFragmentManager().beginTransaction();
                     fragmentTransaction.detach(Vaccine_Review.this);
                     fragmentTransaction.attach(Vaccine_Review.this);
@@ -157,23 +156,23 @@ public class Vaccine_Review extends Fragment {
     }
 
     private void updateReviewToDatabase(String currentUserId, String userName,String review) {
+        // getting the current date which will be used to make primary key later in database
         Calendar calendar = Calendar.getInstance();
         String currentTime = DateFormat.getDateTimeInstance().format(calendar.getTime());
         String key = currentUserId +currentTime;
+        // reference refer to the entity "Review Form" in our database
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+                // updating the review provided by user and username into database
                 reference.child("Review").child(key).child("username").setValue(userName);
                 reference.child("Review").child(key).child("review").setValue(review);
                 reference.child("Review").child(key).child("currenttime").setValue(currentTime);
                 loadingBar.dismiss();
-
             }
-
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 loadingBar.dismiss();
-
             }
         });
 

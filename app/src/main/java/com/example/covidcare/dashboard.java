@@ -88,7 +88,6 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
     String []getCity;
 
 
-
     public double latitude, longitude;
     Toolbar toolbar;
     TextView userName;
@@ -98,7 +97,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
     final int REQUEST_CODE = 8932;
     FusedLocationProviderClient fusedLocationProviderClient;
     LocationRequest locationRequest;
-    public static final int FIVE_MINUTES =  5 * 60 * 1000;
+    public static final int FIFTEEN_MINUTES =  15 * 60 * 1000;
 
 
     @Override
@@ -152,7 +151,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
 
         if (savedInstanceState == null) {
-            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new Google_Map()).commit();
+            getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout, new bottom_home()).commit();
         }
 
     }
@@ -176,7 +175,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                 requestLocationPermission();
             }
             // run this handler on every 5 minutes
-            mHandler.postDelayed(mHandlerTask, FIVE_MINUTES);
+            mHandler.postDelayed(mHandlerTask, FIFTEEN_MINUTES);
         }
     };
 
@@ -194,9 +193,9 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                     Calendar calendar = Calendar.getInstance();
                     String currentTime = DateFormat.getDateTimeInstance().format(calendar.getTime());
                     String key = currentUser.getUid() + currentTime;
-                    // Generate location of the user using Location method from Google Map API
+
+                    // Generate location of the user using Location method from Google Map API : fusedLocationProvideClient
                     for (Location location : locationResult.getLocations()) {
-                        // latitude and longitude of current user location
                         latitude = location.getLatitude();
                         longitude = location.getLongitude();
                         // LocationAddress give the zip code and city name of the provided latitude and longtitude
@@ -206,7 +205,7 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                         reference.addListenerForSingleValueEvent(new ValueEventListener() {
                             @Override
                             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                                // check if user has entered covid status
+                                // check if user has entered Covid status
                                 if (snapshot.child("User").child(currentUser.getUid()).exists() && snapshot.child("User").child(currentUser.getUid()).child("Covid Check").exists()) {
                                     //retrieving all the user information from database
                                     userInput userInput = snapshot.child("User").child(currentUser.getUid()).child("Covid Check").getValue(userInput.class);
@@ -225,10 +224,8 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                                                         checkIfLocationExist = true;
                                                         if(checkIfLocationExist){
                                                             temp2 =1;
-                                                        }
-                                                    } else {
-                                                        checkIfLocationExist = false;
-                                                    }
+                                                        } } else {
+                                                        checkIfLocationExist = false; }
                                                     /*Check if user current location (latitude,longitude) is near by exposedArea (getLatitude, getLongitude)
                                                      Push notification if the user is near by exposed area
                                                      Testing the function of notification by setting the latitude and longitude of current user and assumed latitude and longitude of exposed area
@@ -236,30 +233,21 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
                                                      */
                                                     distanceBetwnTwoLocation = new Distance_Lat_Lang(latitude, longitude, latLang.getLatitude(), latLang.getLongitude());
                                                     double dis = distanceBetwnTwoLocation.distance_Between_LatLong();
+                                                    System.out.println("The ");
                                                     if (dis <= 5.0 && dis != 0.0) {
-                                                        temp =1;
-                                                    }
-                                                }
+                                                        temp =1; } }
                                                 // push notification if user is nearby exposed area by 5 meter
-                                                if (temp==1) {
-                                                    callNotification();
-                                                }
+                                                if (temp==1) { callNotification(); }
                                                 // temp2 is not equal to 1 which means current location of user is not in the database
                                                 // then update the location into database
                                                 if (temp2 != 1) {
                                                     reference.child("Exposed Area").child(key).child("latitude").setValue(latitude);
                                                     reference.child("Exposed Area").child(key).child("longitude").setValue(longitude);
                                                     reference.child("Exposed Area").child(key).child("time").setValue(currentTime);
-                                                    reference.child("Exposed Area").child(key).child("Uid").setValue(currentUser.getUid());
-                                                }
-                                            }
+                                                    reference.child("Exposed Area").child(key).child("Uid").setValue(currentUser.getUid()); } }
                                             @Override
-                                            public void onCancelled(@NonNull DatabaseError error) {
-                                            }
-                                        });
-                                    }
-                                }
-                            }
+                                            public void onCancelled(@NonNull DatabaseError error) { }
+                                        }); } } }
                             @Override
                             public void onCancelled(@NonNull DatabaseError error) {
                                 Toast.makeText(dashboard.this, error.getMessage(), Toast.LENGTH_SHORT).show();
@@ -495,7 +483,8 @@ public class dashboard extends AppCompatActivity implements NavigationView.OnNav
     public void callNotification() {
         AlarmManager alarmManager = (AlarmManager) getSystemService(Context.ALARM_SERVICE);
         Intent notificationIntent = new Intent(this, Notification.class);
-        PendingIntent broadcast = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent broadcast = PendingIntent.getBroadcast(this, 0,
+                notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         Calendar cal = Calendar.getInstance();
         alarmManager.setExact(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), broadcast);
     }
